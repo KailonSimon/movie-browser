@@ -1,9 +1,12 @@
 import PersonSocials from "./PersonSocials";
+import dayjs from "dayjs";
 
 function PersonAbout({ person }: any) {
   return (
     <section className="mt-8 w-full">
-      <h3 className="text-xl font-semibold mb-2">Personal Info</h3>
+      <h3 className="text-3xl md:text-xl text-neutral-content font-semibold mb-2">
+        Personal Info
+      </h3>
       <p className="mb-[20px]">
         <bdi className="font-semibold block">Known for</bdi>
         {person.known_for_department || "-"}
@@ -14,21 +17,21 @@ function PersonAbout({ person }: any) {
       </p>
       <p className="mb-[20px]">
         <bdi className="font-semibold block">Birthday</bdi>
-        {person.birthday || "-"}
+        {dayjs(person.birthday).format("MMMM D, YYYY") || "-"}
       </p>
       <p className="mb-[20px]">
         <bdi className="font-semibold block">Place of Birth</bdi>
         {person.place_of_birth || "-"}
       </p>
       {person.also_known_as.length > 0 && (
-        <p className="mb-[20px]">
+        <>
           <bdi className="font-semibold block">Also Known As</bdi>
           <ul>
             {person.also_known_as.map((alias: string) => (
-              <li>{alias}</li>
+              <li key={alias}>{alias}</li>
             ))}
           </ul>
-        </p>
+        </>
       )}
       <PersonSocials externalIds={person.external_ids} />
     </section>

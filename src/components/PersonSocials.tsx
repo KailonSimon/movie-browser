@@ -3,7 +3,7 @@ import { SiWikidata } from "react-icons/si";
 
 function PersonSocials({ externalIds }: any) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 mt-4">
       {externalIds.twitter_id ? (
         <a
           role="button"

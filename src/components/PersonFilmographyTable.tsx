@@ -22,7 +22,7 @@ function PersonFilmographyTable({ credits }: any) {
       <table className="table table-zebra table-fixed w-full mt-4">
         <thead>
           <tr>
-            <th className="w-16 p-0 overflow-hidden">
+            <th className="w-16 py-0 px-4 overflow-hidden">
               <button
                 className="bg-tranparent w-full h-12 hover:opacity-80"
                 onClick={() =>
@@ -49,12 +49,9 @@ function PersonFilmographyTable({ credits }: any) {
                 </span>
               </button>
             </th>
-            <th
-              className="hover:cursor-pointer"
-              onClick={() => handleSortFilmCredits("title", !sort.descending)}
-            >
+            <th className="py-0 px-4 overflow-hidden">
               <button
-                className="bg-tranparent h-12 hover:opacity-80 px-2"
+                className="bg-tranparent w-full h-12 hover:opacity-80 text-left"
                 onClick={() => handleSortFilmCredits("title", !sort.descending)}
               >
                 <span className="inline-flex gap-1">

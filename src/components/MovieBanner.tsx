@@ -2,13 +2,14 @@ import { Link } from "react-router-dom";
 
 function MovieBanner({ movie }: any) {
   return (
-    <div
-      className="relative w-full bg-cover p-8 flex justify-center min-h-[40vh]"
-      style={{
-        backgroundImage: `url('http://image.tmdb.org/t/p/w1280${movie.backdrop_path}')`,
-      }}
-    >
-      <div className="absolute top-0 left-0 h-full w-full bg-black opacity-75 z-10" />
+    <div className="relative w-full p-8 md:py-16 flex justify-center min-h-[40vh]">
+      <div className="absolute top-0 left-0 h-full w-full bg-black opacity-80 z-10" />
+      <div
+        className="fixed top-0 w-full h-full -z-10 bg-cover bg-center"
+        style={{
+          backgroundImage: `url('http://image.tmdb.org/t/p/w1280${movie.backdrop_path}')`,
+        }}
+      />
 
       <div className="relative flex flex-col justify-center items-center sm:flex-row z-20 w-full max-w-screen-xl gap-8">
         <div className="w-[300px] min-w-[200px] max-w-[50vw]">

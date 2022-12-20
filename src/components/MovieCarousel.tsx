@@ -13,7 +13,10 @@ function MovieCarousel({ title, movies }: any) {
             return null;
           }
           return (
-            <SwiperSlide key={movie.id} className="max-w-min hover:scale-110">
+            <SwiperSlide
+              key={movie.id}
+              className="max-w-min md:hover:scale-105"
+            >
               <MovieCard movie={movie} />
             </SwiperSlide>
           );

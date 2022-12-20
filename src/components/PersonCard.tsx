@@ -11,7 +11,7 @@ function PersonCard({ person }: any) {
           src={`http://image.tmdb.org/t/p/w185/${person.profile_path}`}
           alt={person.name}
           style={{ width: 138, height: 175, objectFit: "cover" }}
-          className="rounded-lg hover:scale-105"
+          className="rounded-lg md:hover:scale-105"
         />
       ) : (
         <div className="w-[138px] h-[175px] bg-base-200 rounded-lg flex justify-center items-center">

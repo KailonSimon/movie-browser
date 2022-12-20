@@ -47,7 +47,7 @@ function Movie() {
   return (
     <div className="w-full relative">
       <MovieBanner movie={movie} />
-      <div className="flex flex-col md:flex-row justify-center py-4">
+      <div className="flex flex-col md:flex-row justify-center py-4 bg-base-100">
         <div className="flex flex-col md:grid md:grid-cols-6 max-w-screen-2xl md:gap-8 px-8">
           <div className="flex flex-col py-4 col-span-4 gap-4">
             {movie?.providers?.results?.US ? (

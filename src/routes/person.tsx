@@ -59,10 +59,12 @@ function Person() {
           <PersonAbout person={person} />
         </div>
         <div className="grow overflow-hidden flex flex-col gap-4">
-          <h2 className="text-3xl font-bold hidden md:block">{person.name}</h2>
+          <h2 className="text-4xl font-bold hidden md:block">{person.name}</h2>
           {person.biography ? (
             <>
-              <h3 className="text-lg font-semibold">Biography</h3>
+              <h3 className="text-3xl text-neutral-content font-semibold">
+                Biography
+              </h3>
               <p>{person.biography}</p>
             </>
           ) : null}
