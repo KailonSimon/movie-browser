@@ -39,7 +39,7 @@ function Filter({
   isRefetching,
 }: FilterProps) {
   return (
-    <div className="border border-primary-content h-min rounded-xl bg-base-200  flex flex-col gap-4 py-4 p-6">
+    <div className="border border-primary-content h-min rounded-xl bg-base-200  flex flex-col gap-4 py-4 p-6 grow md:max-w-[20%]">
       <SegmentedControl
         value={medium}
         onChange={setMedium}

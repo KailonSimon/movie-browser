@@ -30,21 +30,31 @@ export default function Index() {
   return (
     <div className="w-[calc(100vw-2rem)] max-w-screen-2xl flex flex-col gap-4 md:gap-8 px-4 pt-8 pb-16">
       {movies?.popularMovies?.length > 0 && (
-        <MovieCarousel title={"What's Popular"} movies={movies.popularMovies} />
+        <MovieCarousel
+          title={"What's Popular"}
+          movies={movies.popularMovies}
+          withRatings
+        />
       )}
       {movies?.nowPlayingMovies?.length > 0 && (
-        <MovieCarousel title={"Now Playing"} movies={movies.nowPlayingMovies} />
+        <MovieCarousel
+          title={"Now Playing"}
+          movies={movies.nowPlayingMovies}
+          withRatings
+        />
       )}
       {movies?.upcomingMovies?.length > 0 && (
         <MovieCarousel
           title={"Upcoming Titles"}
           movies={movies.upcomingMovies}
+          withRatings
         />
       )}
       {movies?.topRatedMovies?.length > 0 && (
         <MovieCarousel
           title={"Top Rated Films"}
           movies={movies.topRatedMovies}
+          withRatings
         />
       )}
     </div>

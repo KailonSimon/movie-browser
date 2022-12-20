@@ -45,10 +45,6 @@ function Discover() {
     refetch();
   }, [refetch, state.currentPage]);
 
-  useEffect(() => {
-    console.log(discoveries);
-  }, [discoveries]);
-
   const filterFunctions: FilterFunctions = {
     setMedium: (value: "movie" | "tv") =>
       dispatch({ type: "SET_MEDIUM", payload: value }),
@@ -81,24 +77,30 @@ function Discover() {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row w-full max-w-screen-2xl p-8 gap-8 md:gap-4">
+    <div className="flex flex-col sm:flex-row w-full max-w-screen-2xl p-8 md:px-4 gap-8 md:gap-4">
       <DiscoverFilter
         state={state}
         functions={filterFunctions}
         refetch={refetch}
         isRefetching={isRefetching}
       />
-      <div className="flex flex-col justify-end items-center grow">
+      <div className="flex flex-col justify-end items-center grow md:max-w-[75%] gap-8">
         {discoveries && (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 w-full pb-8 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 w-full">
               {discoveries.results.map((movie: any) => {
                 if (!movie.poster_path) {
                   return null;
                 }
                 return (
-                  <div key={movie.id} className="grow flex justify-center">
-                    <MovieCard movie={movie} />
+                  <div
+                    key={movie.id}
+                    className="flex flex-col items-center px-2 py-4"
+                  >
+                    <MovieCard movie={movie} withRating />
+                    <h3 className="mt-5 font-bold text-center">
+                      {movie.title}
+                    </h3>
                   </div>
                 );
               })}
