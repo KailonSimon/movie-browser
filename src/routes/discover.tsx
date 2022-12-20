@@ -45,10 +45,23 @@ function Discover() {
     refetch();
   }, [refetch, state.currentPage]);
 
+  useEffect(() => {
+    console.log(discoveries);
+  }, [discoveries]);
+
   const filterFunctions: FilterFunctions = {
-    setSortType: (value: string) =>
-      dispatch({ type: "SET_SORT_TYPE", payload: value }),
-    setSortDirection: (value: string) =>
+    setMedium: (value: "movie" | "tv") =>
+      dispatch({ type: "SET_MEDIUM", payload: value }),
+    setSortType: (
+      value:
+        | "popularity"
+        | "release_date"
+        | "original_title"
+        | "vote_average"
+        | "vote_count"
+        | "revenue"
+    ) => dispatch({ type: "SET_SORT_TYPE", payload: value }),
+    setSortDirection: (value: "asc" | "desc") =>
       dispatch({ type: "SET_SORT_DIRECTION", payload: value }),
     setDateRange: (value: DateRangePickerValue) =>
       dispatch({ type: "SET_DATE_RANGE", payload: value }),
@@ -60,6 +73,11 @@ function Discover() {
       dispatch({ type: "SET_INCLUDE_ADULT", payload: value }),
     setCurrentPage: (value: number) =>
       dispatch({ type: "SET_CURRENT_PAGE", payload: value }),
+  };
+
+  const handlePageChange = (value: number) => {
+    dispatch({ type: "SET_CURRENT_PAGE", payload: value });
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -89,9 +107,7 @@ function Discover() {
               total={discoveries.total_pages}
               size="xl"
               page={state.currentPage}
-              onChange={(value: number) =>
-                dispatch({ type: "SET_CURRENT_PAGE", payload: value })
-              }
+              onChange={(value: number) => handlePageChange(value)}
               classNames={{
                 item: "bg-base-200 data-active:bg-neutral-content text-white data-active:text-black hover:bg-base-300 hover:data-dots:bg-base-100 hover:disabled:bg-base-200 border-none",
               }}

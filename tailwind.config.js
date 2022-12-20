@@ -19,6 +19,7 @@ module.exports = {
       addVariant("data-first-in-range", "&[data-first-in-range]");
       addVariant("data-last-in-range", "&[data-last-in-range]");
       addVariant("data-dots", "&[data-dots]");
+      addVariant("data-checked", "&[data-checked]");
     }),
   ],
 };

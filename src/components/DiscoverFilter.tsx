@@ -1,5 +1,11 @@
 import { DateRangePicker } from "@mantine/dates";
-import { RangeSlider, Checkbox, Select, Loader } from "@mantine/core";
+import {
+  RangeSlider,
+  Checkbox,
+  Select,
+  Loader,
+  SegmentedControl,
+} from "@mantine/core";
 import { AiFillStar, AiFillClockCircle, AiFillCalendar } from "react-icons/ai";
 import { FilterFunctions, FilterState } from "../services/Filter";
 
@@ -12,6 +18,7 @@ type FilterProps = {
 
 function Filter({
   state: {
+    medium,
     sortType,
     sortDirection,
     dateRange,
@@ -20,6 +27,7 @@ function Filter({
     includeAdult,
   },
   functions: {
+    setMedium,
     setSortType,
     setSortDirection,
     setDateRange,
@@ -32,17 +40,37 @@ function Filter({
 }: FilterProps) {
   return (
     <div className="border border-primary-content h-min rounded-xl bg-base-200  flex flex-col gap-4 py-4 p-6">
+      <SegmentedControl
+        value={medium}
+        onChange={setMedium}
+        data={[
+          { label: "Movies", value: "movie" },
+          { label: "Shows", value: "tv" },
+        ]}
+        classNames={{
+          root: "bg-base-200",
+          label: "text-white font-semibold",
+          labelActive: "text-black",
+          active: "bg-neutral-content",
+        }}
+      />
+
       <Select
         label="Sort by"
         value={sortType}
         onChange={setSortType}
         data={[
           { value: "popularity", label: "Popularity" },
-          { value: "release_date", label: "Release Date" },
+          {
+            value: "release_date",
+            label: medium === "movie" ? "Release date" : "First air date",
+          },
           { value: "original_title", label: "Title" },
           { value: "vote_average", label: "Rating" },
-          { value: "vote_count", label: "Number of Votes" },
-          { value: "revenue", label: "Revenue" },
+          { value: "vote_count", label: "Number of votes" },
+          ...(medium === "movie"
+            ? [{ value: "revenue", label: "Revenue" }]
+            : []),
         ]}
         classNames={{
           label: "text-white font-normal",
@@ -52,6 +80,7 @@ function Filter({
           item: "data-selected:bg-neutral-content data-selected:data-hovered:bg-neutral-content data-selected:hover:bg-neutral-content data-selected:text-black text-white data-hovered:bg-base-300 font-semibold",
         }}
       />
+
       <Select
         label="Sort direction"
         value={sortDirection}
@@ -70,7 +99,7 @@ function Filter({
       />
 
       <DateRangePicker
-        label="Release date"
+        label={medium === "movie" ? "Release date" : "First air date"}
         labelFormat="MMMM D, YYYY"
         inputFormat="MMM D, YYYY"
         value={dateRange}
@@ -101,6 +130,7 @@ function Filter({
         <RangeSlider
           size="lg"
           step={5}
+          min={5}
           value={ratingRange}
           onChange={setRatingRange}
           classNames={{
@@ -128,7 +158,9 @@ function Filter({
         <label className="text-[14px]">Runtime</label>
         <RangeSlider
           size="lg"
-          step={10}
+          step={30}
+          min={30}
+          max={300}
           precision={0}
           value={runtimeRange}
           onChange={setRuntimeRange}
@@ -141,7 +173,7 @@ function Filter({
             label:
               "border border-primary-content bg-base-200 text-neutral-content font-semibold text-[14px]",
           }}
-          label={(value: number) => (value > 0 ? `${value / 20}h` : `0`)}
+          label={(value: number) => `${value / 60}h`}
           thumbSize={26}
           thumbChildren={
             <AiFillClockCircle size={20} className="text-neutral-content" />
@@ -162,6 +194,7 @@ function Filter({
           }}
         />
       </div>
+
       <button
         className="btn btn-outline"
         onClick={refetch}

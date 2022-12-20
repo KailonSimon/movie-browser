@@ -1,4 +1,3 @@
-import React from "react";
 import PersonSocials from "./PersonSocials";
 
 function PersonAbout({ person }: any) {
@@ -24,7 +23,11 @@ function PersonAbout({ person }: any) {
       {person.also_known_as.length > 0 && (
         <p className="mb-[20px]">
           <bdi className="font-semibold block">Also Known As</bdi>
-          {person.also_known_as.join(", ") || "-"}
+          <ul>
+            {person.also_known_as.map((alias: string) => (
+              <li>{alias}</li>
+            ))}
+          </ul>
         </p>
       )}
       <PersonSocials externalIds={person.external_ids} />

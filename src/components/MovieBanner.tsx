@@ -28,11 +28,12 @@ function MovieBanner({ movie }: any) {
             <Link
               to={`/movie/${movie.id}`}
               className="text-3xl font-bold hover:opacity-80"
-            >{`${movie.title} ${
-              movie.release_date
-                ? `(${movie.release_date.substring(0, 4)})`
-                : ""
-            }`}</Link>
+            >
+              {movie.title}{" "}
+              {movie.release_date ? (
+                <span>{`(${movie.release_date.substring(0, 4)})`}</span>
+              ) : null}
+            </Link>
             <p className="italic opacity-75">{movie.tagline}</p>
           </div>
           <div className="flex flex-wrap gap-1 mt-2">

@@ -24,7 +24,9 @@ const providerItems = (title: string, providers: []) => (
 function MovieProviders({ providers }: any) {
   return (
     <div className="flex flex-col mb-4">
-      <h2 className="text-3xl font-bold mb-4">Watch Now</h2>
+      <h2 className="text-3xl text-neutral-content font-semibold mb-4">
+        Watch Now
+      </h2>
       {providers?.flatrate?.length > 0 &&
         providerItems("Stream", providers.flatrate)}
       {providers?.rent?.length > 0 && providerItems("Rent", providers.rent)}

@@ -5,8 +5,10 @@ import PersonCard from "./PersonCard";
 function MovieCast({ cast }: any) {
   return (
     <div>
-      <h2 className="text-3xl font-semibold mb-[20px]">Top Billed Cast</h2>
-      <Swiper spaceBetween={16} slidesPerView="auto" className="w-full">
+      <h2 className="text-3xl text-neutral-content font-semibold mb-[20px]">
+        Top Billed Cast
+      </h2>
+      <Swiper spaceBetween={16} slidesPerView="auto" className="!py-2">
         {sortArrayByPopularity(cast)
           .splice(0, 10)
           .map((person: any) => (
