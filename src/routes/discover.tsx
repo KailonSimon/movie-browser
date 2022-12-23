@@ -9,7 +9,6 @@ import {
   initialState as filterInitialState,
 } from "../services/Filter";
 import { Pagination } from "@mantine/core";
-import { DateRangePickerValue } from "@mantine/dates";
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import MovieCard from "../components/MovieCard";
 
@@ -31,11 +30,7 @@ function Discover() {
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
   >;
-  const {
-    data: discoveries,
-    refetch,
-    isRefetching,
-  }: any = useQuery({
+  const { data, refetch }: any = useQuery({
     ...discoverQuery(state),
     initialData,
     refetchOnWindowFocus: false,
@@ -43,32 +38,32 @@ function Discover() {
 
   useEffect(() => {
     refetch();
-  }, [refetch, state.currentPage]);
+  }, [refetch, state]);
 
   const filterFunctions: FilterFunctions = {
-    setMedium: (value: "movie" | "tv") =>
-      dispatch({ type: "SET_MEDIUM", payload: value }),
-    setSortType: (
-      value:
-        | "popularity"
-        | "release_date"
-        | "original_title"
-        | "vote_average"
-        | "vote_count"
-        | "revenue"
-    ) => dispatch({ type: "SET_SORT_TYPE", payload: value }),
-    setSortDirection: (value: "asc" | "desc") =>
-      dispatch({ type: "SET_SORT_DIRECTION", payload: value }),
-    setDateRange: (value: DateRangePickerValue) =>
+    setMedium: (value) => dispatch({ type: "SET_MEDIUM", payload: value }),
+    setSortType: (value) => dispatch({ type: "SET_SORT_TYPE", payload: value }),
+    setActiveProviders: (value) =>
+      dispatch({ type: "SET_ACTIVE_PROVIDERS", payload: value }),
+    setDateRange: (value) =>
       dispatch({ type: "SET_DATE_RANGE", payload: value }),
-    setRatingRange: (value: [number, number]) =>
+    setIncludedGenres: (value) =>
+      dispatch({ type: "SET_INCLUDED_GENRES", payload: value }),
+    setExcludedGenres: (value) =>
+      dispatch({ type: "SET_EXCLUDED_GENRES", payload: value }),
+    setRatingRange: (value) =>
       dispatch({ type: "SET_RATING_RANGE", payload: value }),
-    setRuntimeRange: (value: [number, number]) =>
+    setMinimumRatingCount: (value) =>
+      dispatch({ type: "SET_MINIMUM_RATING_COUNT", payload: value }),
+    setRuntimeRange: (value) =>
       dispatch({ type: "SET_RUNTIME_RANGE", payload: value }),
-    setIncludeAdult: (value: boolean) =>
+    setMonetizationTypes: (value) =>
+      dispatch({ type: "SET_MONETIZATION_TYPES", payload: value }),
+    setIncludeAdult: (value) =>
       dispatch({ type: "SET_INCLUDE_ADULT", payload: value }),
-    setCurrentPage: (value: number) =>
+    setCurrentPage: (value) =>
       dispatch({ type: "SET_CURRENT_PAGE", payload: value }),
+    reset: () => dispatch({ type: "RESET" }),
   };
 
   const handlePageChange = (value: number) => {
@@ -77,36 +72,36 @@ function Discover() {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row w-full max-w-screen-2xl p-8 md:px-4 gap-8 md:gap-4">
-      <DiscoverFilter
-        state={state}
-        functions={filterFunctions}
-        refetch={refetch}
-        isRefetching={isRefetching}
-      />
-      <div className="flex flex-col justify-end items-center grow md:max-w-[75%] gap-8">
-        {discoveries && (
+    <div className="flex flex-col w-full max-w-screen-2xl p-8 md:px-4 gap-8 md:gap-4">
+      {data?.genres && (
+        <DiscoverFilter
+          state={state}
+          functions={filterFunctions}
+          genres={data.genres}
+          providers={data?.providers}
+          numberOfResults={data?.discoveries?.total_results}
+        />
+      )}
+      <div className="flex flex-col items-center grow gap-8">
+        {data?.discoveries && (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 w-full">
-              {discoveries.results.map((movie: any) => {
+            <div
+              className="grid w-full gap-2 justify-items-center md:justify-items-start"
+              style={{
+                gridTemplateColumns: "repeat(auto-fill,minmax(150px,1fr))",
+              }}
+            >
+              {data?.discoveries.results.map((movie: any) => {
                 if (!movie.poster_path) {
                   return null;
                 }
                 return (
-                  <div
-                    key={movie.id}
-                    className="flex flex-col items-center px-2 py-4"
-                  >
-                    <MovieCard movie={movie} withRating />
-                    <h3 className="mt-5 font-bold text-center">
-                      {movie.title}
-                    </h3>
-                  </div>
+                  <MovieCard movie={movie} withRating={false} key={movie.id} />
                 );
               })}
             </div>
             <Pagination
-              total={discoveries.total_pages}
+              total={data.discoveries.total_pages}
               size="xl"
               page={state.currentPage}
               onChange={(value: number) => handlePageChange(value)}

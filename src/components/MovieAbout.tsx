@@ -20,7 +20,9 @@ function MovieAbout({ movie }: any) {
           <div className="stat-value">
             {Math.floor(movie.vote_average * 10)}%
           </div>
-          <div className="stat-desc mt-2 text-sm">{movie.vote_count} votes</div>
+          <div className="stat-desc mt-2 text-sm">
+            {movie.vote_count.toLocaleString("en")} votes
+          </div>
         </div>
       ) : null}
 

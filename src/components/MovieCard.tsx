@@ -19,7 +19,7 @@ function MovieCard({ movie, withRating }: any) {
         <div className="h-[34px] w-[34px] absolute -bottom-4 left-2">
           <CircularProgressbar
             value={movie.vote_average * 10}
-            text={`${movie.vote_average * 10}%`}
+            text={`${movie.vote_average * 10}`}
             background
             classes={{
               root: "w-full align-middle",
@@ -30,7 +30,7 @@ function MovieCard({ movie, withRating }: any) {
                   : movie.vote_average > 5
                   ? "stroke-yellow-300"
                   : "stroke-red-500",
-              text: "fill-white text-[32px] font-bold align-middle",
+              text: "fill-white text-[38px] font-bold align-middle",
               background: "fill-base-100",
             }}
             styles={{

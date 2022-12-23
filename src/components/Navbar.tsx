@@ -8,7 +8,10 @@ function Navbar() {
     <div className="navbar fixed bg-base-200 md:px-8 flex justify-center z-[99]">
       <div className="w-full max-w-screen-2xl">
         <div className="navbar-start">
-          <Link to="/" className="btn btn-ghost normal-case text-xl">
+          <Link
+            to="/"
+            className="btn btn-ghost normal-case text-xl flex flex-nowrap"
+          >
             Movie<span className="text-base-content">Browser</span>
           </Link>
         </div>
@@ -48,7 +51,7 @@ function Navbar() {
               classNames={{
                 wrapper: "hidden md:flex",
                 input:
-                  "bg-transparent border-base-300 focus:border-neutral-content rounded-full",
+                  "bg-transparent border-base-300 focus:border-neutral-content rounded-full text-white",
               }}
               placeholder="Search"
               icon={

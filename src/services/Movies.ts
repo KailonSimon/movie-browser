@@ -1,5 +1,6 @@
 import { FilterState } from "./Filter";
 import dayjs from "dayjs";
+import { fetchCountries } from "./Configuration";
 
 export const fetchMovieProvidersById = async (movieId: string) => {
   return await fetch(
@@ -9,7 +10,7 @@ export const fetchMovieProvidersById = async (movieId: string) => {
 
 export const fetchAllMoviesProviders = async () => {
   return await fetch(
-    `https://api.themoviedb.org/3/watch/providers/regions?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}`
+    `https://api.themoviedb.org/3/watch/providers/movie?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US&watch_region=US`
   ).then((res) => res.json());
 };
 
@@ -85,40 +86,112 @@ export const fetchMoviesByGenreID = async (genreId: string) => {
   };
 };
 
+export const getDiscoveriesUrl = ({
+  medium,
+  sortType,
+  activeProviders,
+  dateRange,
+  includedGenres,
+  excludedGenres,
+  ratingRange,
+  minimumRatingCount,
+  runtimeRange,
+  monetizationTypes,
+  includeAdult,
+  currentPage,
+}: FilterState) =>
+  `https://api.themoviedb.org/3/discover/${medium}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&` +
+  new URLSearchParams({
+    sort_by: `${sortType}.desc`,
+    ...(activeProviders.length
+      ? {
+          with_watch_providers: activeProviders.join("|"),
+          watch_region: "US",
+        }
+      : {}),
+    ...(medium === "movie"
+      ? {
+          "primary_release_date.gte": dayjs()
+            .year(new Date().getFullYear() - 100 + dateRange[0])
+            .startOf("year")
+            .format("YYYY-MM-DD"),
+        }
+      : {
+          "first_air_date.gte": dayjs()
+            .year(new Date().getFullYear() - 100 + dateRange[0])
+            .startOf("year")
+            .format("YYYY-MM-DD"),
+        }),
+    ...(medium === "movie"
+      ? {
+          "primary_release_date.lte": dayjs()
+            .year(new Date().getFullYear() - 100 + dateRange[1])
+            .startOf("year")
+            .format("YYYY-MM-DD"),
+        }
+      : {
+          "first_air_date.lte": dayjs()
+            .year(new Date().getFullYear() - 100 + dateRange[1])
+            .startOf("year")
+            .format("YYYY-MM-DD"),
+        }),
+    ...(includedGenres.length && { with_genres: includedGenres.join() }),
+    ...(excludedGenres.length && { without_genres: excludedGenres.join() }),
+    "vote_average.gte": (ratingRange[0] / 10).toString(),
+    "vote_average.lte": (ratingRange[1] / 10).toString(),
+    ...(minimumRatingCount && {
+      "vote_count.gte": minimumRatingCount.toString(),
+    }),
+    "with_runtime.gte": runtimeRange[0].toString(),
+    ...(runtimeRange[1] < 150 && {
+      "with_runtime.lte": runtimeRange[1].toString(),
+    }),
+    ...(monetizationTypes.length && {
+      with_watch_monetization_types: monetizationTypes.join("|"),
+    }),
+    ...(medium === "movie" ? { include_adult: includeAdult.toString() } : {}),
+    page: currentPage.toString(),
+  });
+
 export const fetchDiscoverResults = async ({
   medium,
   sortType,
-  sortDirection,
+  activeProviders,
   dateRange,
+  includedGenres,
+  excludedGenres,
   ratingRange,
+  minimumRatingCount,
   runtimeRange,
+  monetizationTypes,
   includeAdult,
   currentPage,
 }: FilterState) => {
-  const url =
-    `https://api.themoviedb.org/3/discover/${medium}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&` +
-    new URLSearchParams({
-      sort_by: `${sortType}.${sortDirection}`,
-      ...(medium === "movie"
-        ? {
-            "primary_release_date.gte": dayjs(dateRange[0]).format(
-              "YYYY-MM-DD"
-            ),
-          }
-        : { "first_air_date.gte": dayjs(dateRange[0]).format("YYYY-MM-DD") }),
-      ...(medium === "movie"
-        ? {
-            "primary_release_date.lte": dayjs(dateRange[1]).format(
-              "YYYY-MM-DD"
-            ),
-          }
-        : { "first_air_date.lte": dayjs(dateRange[1]).format("YYYY-MM-DD") }),
-      "vote_average.gte": (ratingRange[0] / 10).toString(),
-      "vote_average.lte": (ratingRange[1] / 10).toString(),
-      "with_runtime.gte": runtimeRange[0].toString(),
-      "with_runtime.lte": runtimeRange[1].toString(),
-      ...(medium === "movie" ? { include_adult: includeAdult.toString() } : {}),
-      page: currentPage.toString(),
-    });
-  return await fetch(url).then((res) => res.json());
+  const [discoveries, providers, genres, countries] = await Promise.all([
+    fetch(
+      getDiscoveriesUrl({
+        medium,
+        sortType,
+        activeProviders,
+        dateRange,
+        includedGenres,
+        excludedGenres,
+        ratingRange,
+        minimumRatingCount,
+        runtimeRange,
+        monetizationTypes,
+        includeAdult,
+        currentPage,
+      })
+    ).then((res) => res.json()),
+    fetchAllMoviesProviders(),
+    fetchGenres(),
+    fetchCountries(),
+  ]);
+  return {
+    discoveries,
+    providers: providers.results,
+    genres: genres.genres,
+    countries,
+  };
 };

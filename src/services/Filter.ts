@@ -1,5 +1,4 @@
 import { Reducer } from "react";
-import { DateRangePickerValue } from "@mantine/dates";
 
 export interface Filter {
   medium: "movie" | "tv";
@@ -10,10 +9,14 @@ export interface Filter {
     | "vote_average"
     | "vote_count"
     | "revenue";
-  sortDirection: "asc" | "desc";
-  dateRange: DateRangePickerValue;
+  activeProviders: number[];
+  dateRange: [number, number];
+  includedGenres: number[];
+  excludedGenres: number[];
   ratingRange: [number, number];
+  minimumRatingCount: number;
   runtimeRange: [number, number];
+  monetizationTypes: string[];
   includeAdult: boolean;
   currentPage: number;
   setMedium: (medium: "movie" | "tv") => void;
@@ -26,22 +29,31 @@ export interface Filter {
       | "vote_count"
       | "revenue"
   ) => void;
-  setSortDirection: (sortDirection: "asc" | "desc") => void;
-  setDateRange: (dateRange: DateRangePickerValue) => void;
+  setActiveProviders: (providers: number[]) => void;
+  setDateRange: (dateRange: [number, number]) => void;
+  setIncludedGenres: (includedGenres: number[] | []) => void;
+  setExcludedGenres: (excludedGenres: number[] | []) => void;
   setRatingRange: (ratingRange: [number, number]) => void;
+  setMinimumRatingCount: (minimumRatingCount: number) => void;
   setRuntimeRange: (runtimeRange: [number, number]) => void;
+  setMonetizationTypes: (monetizationTypes: string[]) => void;
   setIncludeAdult: (includeAdult: boolean) => void;
   setCurrentPage: (currentPage: number) => void;
+  reset: () => void;
 }
 
 export type FilterState = Pick<
   Filter,
   | "medium"
   | "sortType"
-  | "sortDirection"
+  | "activeProviders"
   | "dateRange"
+  | "includedGenres"
+  | "excludedGenres"
   | "ratingRange"
+  | "minimumRatingCount"
   | "runtimeRange"
+  | "monetizationTypes"
   | "includeAdult"
   | "currentPage"
 >;
@@ -50,12 +62,17 @@ export type FilterFunctions = Pick<
   Filter,
   | "setMedium"
   | "setSortType"
-  | "setSortDirection"
+  | "setActiveProviders"
   | "setDateRange"
+  | "setIncludedGenres"
+  | "setExcludedGenres"
   | "setRatingRange"
+  | "setMinimumRatingCount"
   | "setRuntimeRange"
+  | "setMonetizationTypes"
   | "setIncludeAdult"
   | "setCurrentPage"
+  | "reset"
 >;
 
 type Action =
@@ -70,23 +87,29 @@ type Action =
         | "vote_count"
         | "revenue";
     }
-  | { type: "SET_SORT_DIRECTION"; payload: "asc" | "desc" }
-  | { type: "SET_DATE_RANGE"; payload: DateRangePickerValue }
+  | { type: "SET_ACTIVE_PROVIDERS"; payload: number[] }
+  | { type: "SET_DATE_RANGE"; payload: [number, number] }
+  | { type: "SET_INCLUDED_GENRES"; payload: number[] }
+  | { type: "SET_EXCLUDED_GENRES"; payload: number[] }
   | { type: "SET_RATING_RANGE"; payload: [number, number] }
+  | { type: "SET_MINIMUM_RATING_COUNT"; payload: number }
   | { type: "SET_RUNTIME_RANGE"; payload: [number, number] }
+  | { type: "SET_MONETIZATION_TYPES"; payload: string[] }
   | { type: "SET_INCLUDE_ADULT"; payload: boolean }
-  | { type: "SET_CURRENT_PAGE"; payload: number };
+  | { type: "SET_CURRENT_PAGE"; payload: number }
+  | { type: "RESET" };
 
 export const initialState: FilterState = {
   medium: "movie",
   sortType: "popularity",
-  sortDirection: "desc",
-  dateRange: [
-    new Date(new Date().setFullYear(new Date().getFullYear() - 10)),
-    new Date(),
-  ],
+  activeProviders: [2, 8, 9],
+  dateRange: [0, 100],
+  includedGenres: [] as number[],
+  excludedGenres: [] as number[],
   ratingRange: [10, 100],
-  runtimeRange: [60, 180],
+  minimumRatingCount: 0,
+  runtimeRange: [0, 150],
+  monetizationTypes: [],
   includeAdult: false,
   currentPage: 1,
 };
@@ -106,25 +129,45 @@ export const reducer: Reducer<FilterState, Action> = (
         ...state,
         sortType: action.payload,
       };
-    case "SET_SORT_DIRECTION":
+    case "SET_ACTIVE_PROVIDERS":
       return {
         ...state,
-        sortDirection: action.payload,
+        activeProviders: action.payload,
       };
     case "SET_DATE_RANGE":
       return {
         ...state,
         dateRange: action.payload,
       };
+    case "SET_INCLUDED_GENRES":
+      return {
+        ...state,
+        includedGenres: action.payload,
+      };
+    case "SET_EXCLUDED_GENRES":
+      return {
+        ...state,
+        excludedGenres: action.payload,
+      };
     case "SET_RATING_RANGE":
       return {
         ...state,
         ratingRange: action.payload,
       };
+    case "SET_MINIMUM_RATING_COUNT":
+      return {
+        ...state,
+        minimumRatingCount: action.payload,
+      };
     case "SET_RUNTIME_RANGE":
       return {
         ...state,
         runtimeRange: action.payload,
+      };
+    case "SET_MONETIZATION_TYPES":
+      return {
+        ...state,
+        monetizationTypes: action.payload,
       };
     case "SET_INCLUDE_ADULT":
       return {
@@ -136,7 +179,7 @@ export const reducer: Reducer<FilterState, Action> = (
         ...state,
         currentPage: action.payload,
       };
-    default:
-      return state;
+    case "RESET":
+      return { ...initialState, activeProviders: state.activeProviders };
   }
 };

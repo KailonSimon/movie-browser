@@ -1,10 +1,7 @@
 import { QueryClient, useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { fetchPersonDetails } from "../services/People";
 import { sortArrayByPopularity } from "../services/API";
-import MovieCard from "../components/MovieCard";
 import PersonFilmographyTable from "../components/PersonFilmographyTable";
 import PersonAbout from "../components/PersonAbout";
 import MovieCarousel from "../components/MovieCarousel";
