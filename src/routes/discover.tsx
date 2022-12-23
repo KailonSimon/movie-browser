@@ -1,21 +1,53 @@
-import { useEffect } from "react";
+import { useEffect, Fragment } from "react";
 import { useLoaderData } from "react-router-dom";
 import DiscoverFilter from "../components/DiscoverFilter";
 import { FilterFunctions, FilterState, initialState } from "../services/Filter";
-import { fetchDiscoverResults } from "../services/Movies";
+import {
+  fetchAllMoviesProviders,
+  fetchDiscoverResults,
+  fetchGenres,
+} from "../services/Movies";
 import { useReducer } from "react";
 import {
   reducer as filterReducer,
   initialState as filterInitialState,
 } from "../services/Filter";
-import { Pagination } from "@mantine/core";
-import { QueryClient, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useInfiniteQuery,
+  useQueries,
+} from "@tanstack/react-query";
 import MovieCard from "../components/MovieCard";
+import { useInView } from "react-intersection-observer";
 
-const discoverQuery = (state: FilterState) => ({
-  queryKey: ["movies", "discover"],
-  queryFn: async () => fetchDiscoverResults(state),
-});
+function discoverQuery(filterState: FilterState) {
+  return {
+    queryKey: ["movies", "discover"],
+    queryFn: async ({ pageParam = 1 }) =>
+      fetchDiscoverResults(filterState, pageParam),
+  };
+}
+
+const filterQueries = [
+  {
+    queryKey: ["genres"],
+    queryFn: fetchGenres,
+    staleTime: Infinity,
+  },
+  {
+    queryKey: ["providers"],
+    queryFn: fetchAllMoviesProviders,
+    staleTime: Infinity,
+  },
+];
+
+const getSkeletonItemCount = (totalItems: number, shownItems: number) => {
+  if (totalItems - shownItems > 20) {
+    return 19;
+  } else {
+    return totalItems - shownItems - 1;
+  }
+};
 
 export const loader = (queryClient: QueryClient) => async () => {
   const query = discoverQuery(initialState);
@@ -26,19 +58,37 @@ export const loader = (queryClient: QueryClient) => async () => {
 };
 
 function Discover() {
-  const [state, dispatch] = useReducer(filterReducer, filterInitialState);
-  const initialData = useLoaderData() as Awaited<
-    ReturnType<ReturnType<typeof loader>>
-  >;
-  const { data, refetch }: any = useQuery({
-    ...discoverQuery(state),
+  const [filterState, dispatch] = useReducer(filterReducer, filterInitialState);
+  const { ref: loaderRef, inView } = useInView();
+
+  const initialData = useLoaderData() as any;
+  const {
+    data: discoverResults,
+    isSuccess: discoverIsSuccess,
+    hasNextPage,
+    fetchNextPage,
+    refetch,
+  } = useInfiniteQuery({
+    ...discoverQuery(filterState),
     initialData,
+    getNextPageParam: (lastPage) =>
+      lastPage.page < lastPage.total_pages ? lastPage.page + 1 : null,
     refetchOnWindowFocus: false,
+  });
+
+  const [genreResults, providerResults] = useQueries({
+    queries: filterQueries,
   });
 
   useEffect(() => {
     refetch();
-  }, [refetch, state]);
+  }, [filterState, refetch]);
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
 
   const filterFunctions: FilterFunctions = {
     setMedium: (value) => dispatch({ type: "SET_MEDIUM", payload: value }),
@@ -61,54 +111,56 @@ function Discover() {
       dispatch({ type: "SET_MONETIZATION_TYPES", payload: value }),
     setIncludeAdult: (value) =>
       dispatch({ type: "SET_INCLUDE_ADULT", payload: value }),
-    setCurrentPage: (value) =>
-      dispatch({ type: "SET_CURRENT_PAGE", payload: value }),
     reset: () => dispatch({ type: "RESET" }),
-  };
-
-  const handlePageChange = (value: number) => {
-    dispatch({ type: "SET_CURRENT_PAGE", payload: value });
-    window.scrollTo(0, 0);
   };
 
   return (
     <div className="flex flex-col w-full max-w-screen-2xl p-8 md:px-4 gap-8 md:gap-4">
-      {data?.genres && (
-        <DiscoverFilter
-          state={state}
-          functions={filterFunctions}
-          genres={data.genres}
-          providers={data?.providers}
-          numberOfResults={data?.discoveries?.total_results}
-        />
-      )}
+      {discoverIsSuccess &&
+        genreResults.isSuccess &&
+        providerResults.isSuccess && (
+          <DiscoverFilter
+            state={filterState}
+            functions={filterFunctions}
+            genres={genreResults.data.genres}
+            providers={providerResults.data.results}
+            numberOfResults={discoverResults.pages[0].total_results}
+          />
+        )}
       <div className="flex flex-col items-center grow gap-8">
-        {data?.discoveries && (
+        {discoverIsSuccess && (
           <>
-            <div
-              className="grid w-full gap-2 justify-items-center md:justify-items-start"
-              style={{
-                gridTemplateColumns: "repeat(auto-fill,minmax(150px,1fr))",
-              }}
-            >
-              {data?.discoveries.results.map((movie: any) => {
-                if (!movie.poster_path) {
-                  return null;
-                }
-                return (
-                  <MovieCard movie={movie} withRating={false} key={movie.id} />
-                );
-              })}
+            <div className="grid grid-cols-[repeat(auto-fill,_150px)] w-full gap-4 justify-items-center md:justify-items-start">
+              {discoverResults.pages.map((group) => (
+                <Fragment key={group.page}>
+                  {group.results.map((movie: any) => {
+                    if (!movie.poster_path) {
+                      return null;
+                    }
+                    return <MovieCard movie={movie} key={movie.id} />;
+                  })}
+                </Fragment>
+              ))}
+
+              {hasNextPage && (
+                <>
+                  <div
+                    className="w-[150px] h-[225px] bg-base-300 rounded-lg animate-pulse"
+                    ref={loaderRef}
+                  />
+                  {[
+                    ...Array(
+                      getSkeletonItemCount(
+                        discoverResults?.pages[0]?.total_results,
+                        discoverResults?.pages?.length * 20
+                      )
+                    ),
+                  ].map((o, i) => (
+                    <MovieCard key={i} />
+                  ))}
+                </>
+              )}
             </div>
-            <Pagination
-              total={data.discoveries.total_pages}
-              size="xl"
-              page={state.currentPage}
-              onChange={(value: number) => handlePageChange(value)}
-              classNames={{
-                item: "bg-base-200 data-active:bg-neutral-content text-white data-active:text-black hover:bg-base-300 hover:data-dots:bg-base-100 hover:disabled:bg-base-200 border-none",
-              }}
-            />
           </>
         )}
       </div>

@@ -3,6 +3,11 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 function MovieCard({ movie, withRating }: any) {
+  if (!movie) {
+    return (
+      <div className="w-[150px] h-[225px] bg-base-300 rounded-lg animate-pulse" />
+    );
+  }
   return (
     <Link
       to={`/movie/${movie.id}`}

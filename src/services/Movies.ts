@@ -1,4 +1,4 @@
-import { FilterState } from "./Filter";
+import { Filter, FilterState } from "./Filter";
 import dayjs from "dayjs";
 import { fetchCountries } from "./Configuration";
 
@@ -60,12 +60,11 @@ export const fetchMoviePageDetails = async (movieId: string) => {
   return { ...details, providers };
 };
 
-export const fetchGenres = async () => {
-  return await fetch(`
+export const fetchGenres = async () =>
+  await fetch(`
   https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US`).then(
     (res) => res.json()
   );
-};
 
 export const fetchMoviesByGenreID = async (genreId: string) => {
   const [genres, movies, shows] = await Promise.all([
@@ -86,20 +85,22 @@ export const fetchMoviesByGenreID = async (genreId: string) => {
   };
 };
 
-export const getDiscoveriesUrl = ({
-  medium,
-  sortType,
-  activeProviders,
-  dateRange,
-  includedGenres,
-  excludedGenres,
-  ratingRange,
-  minimumRatingCount,
-  runtimeRange,
-  monetizationTypes,
-  includeAdult,
-  currentPage,
-}: FilterState) =>
+export const getDiscoveriesUrl = (
+  {
+    medium,
+    sortType,
+    activeProviders,
+    dateRange,
+    includedGenres,
+    excludedGenres,
+    ratingRange,
+    minimumRatingCount,
+    runtimeRange,
+    monetizationTypes,
+    includeAdult,
+  }: FilterState,
+  pageParam: number
+) =>
   `https://api.themoviedb.org/3/discover/${medium}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&` +
   new URLSearchParams({
     sort_by: `${sortType}.desc`,
@@ -135,8 +136,8 @@ export const getDiscoveriesUrl = ({
             .startOf("year")
             .format("YYYY-MM-DD"),
         }),
-    ...(includedGenres.length && { with_genres: includedGenres.join() }),
-    ...(excludedGenres.length && { without_genres: excludedGenres.join() }),
+    ...(includedGenres.length && { with_genres: includedGenres.join("|") }),
+    ...(excludedGenres.length && { without_genres: excludedGenres.join("|") }),
     "vote_average.gte": (ratingRange[0] / 10).toString(),
     "vote_average.lte": (ratingRange[1] / 10).toString(),
     ...(minimumRatingCount && {
@@ -150,26 +151,28 @@ export const getDiscoveriesUrl = ({
       with_watch_monetization_types: monetizationTypes.join("|"),
     }),
     ...(medium === "movie" ? { include_adult: includeAdult.toString() } : {}),
-    page: currentPage.toString(),
+    page: pageParam.toString(),
   });
 
-export const fetchDiscoverResults = async ({
-  medium,
-  sortType,
-  activeProviders,
-  dateRange,
-  includedGenres,
-  excludedGenres,
-  ratingRange,
-  minimumRatingCount,
-  runtimeRange,
-  monetizationTypes,
-  includeAdult,
-  currentPage,
-}: FilterState) => {
-  const [discoveries, providers, genres, countries] = await Promise.all([
-    fetch(
-      getDiscoveriesUrl({
+export const fetchDiscoverResults = async (
+  {
+    medium,
+    sortType,
+    activeProviders,
+    dateRange,
+    includedGenres,
+    excludedGenres,
+    ratingRange,
+    minimumRatingCount,
+    runtimeRange,
+    monetizationTypes,
+    includeAdult,
+  }: FilterState,
+  pageParam: number
+) =>
+  fetch(
+    getDiscoveriesUrl(
+      {
         medium,
         sortType,
         activeProviders,
@@ -181,17 +184,7 @@ export const fetchDiscoverResults = async ({
         runtimeRange,
         monetizationTypes,
         includeAdult,
-        currentPage,
-      })
-    ).then((res) => res.json()),
-    fetchAllMoviesProviders(),
-    fetchGenres(),
-    fetchCountries(),
-  ]);
-  return {
-    discoveries,
-    providers: providers.results,
-    genres: genres.genres,
-    countries,
-  };
-};
+      },
+      pageParam
+    )
+  ).then((res) => res.json());

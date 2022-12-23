@@ -55,7 +55,6 @@ export type FilterState = Pick<
   | "runtimeRange"
   | "monetizationTypes"
   | "includeAdult"
-  | "currentPage"
 >;
 
 export type FilterFunctions = Pick<
@@ -71,7 +70,6 @@ export type FilterFunctions = Pick<
   | "setRuntimeRange"
   | "setMonetizationTypes"
   | "setIncludeAdult"
-  | "setCurrentPage"
   | "reset"
 >;
 
@@ -96,7 +94,6 @@ type Action =
   | { type: "SET_RUNTIME_RANGE"; payload: [number, number] }
   | { type: "SET_MONETIZATION_TYPES"; payload: string[] }
   | { type: "SET_INCLUDE_ADULT"; payload: boolean }
-  | { type: "SET_CURRENT_PAGE"; payload: number }
   | { type: "RESET" };
 
 export const initialState: FilterState = {
@@ -111,7 +108,6 @@ export const initialState: FilterState = {
   runtimeRange: [0, 150],
   monetizationTypes: [],
   includeAdult: false,
-  currentPage: 1,
 };
 
 export const reducer: Reducer<FilterState, Action> = (
@@ -173,11 +169,6 @@ export const reducer: Reducer<FilterState, Action> = (
       return {
         ...state,
         includeAdult: action.payload,
-      };
-    case "SET_CURRENT_PAGE":
-      return {
-        ...state,
-        currentPage: action.payload,
       };
     case "RESET":
       return { ...initialState, activeProviders: state.activeProviders };
