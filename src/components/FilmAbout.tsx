@@ -9,10 +9,10 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       : film.keywords?.results;
 
   return (
-    <div className="stats stats-vertical bg-base-200 flex flex-col h-min gap-4 w-full col-span-2 py-2">
+    <div className="stats stats-vertical bg-base-200 flex flex-col max-w-[28rem] h-min gap-4 w-full col-span-2 py-2">
       <div className="stat">
         <div className="stat-title">Status</div>
-        <div className="stat-value">{film.status}</div>
+        <div className="stat-value whitespace-pre-wrap">{film.status}</div>
 
         <div className="stat-desc mt-2 text-sm">
           {dayjs(
@@ -26,7 +26,7 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       {film.vote_average > 0 ? (
         <div className="stat">
           <div className="stat-title">Rating</div>
-          <div className="stat-value">
+          <div className="stat-value whitespace-pre-wrap">
             {Math.floor(film.vote_average * 10)}%
           </div>
           <div className="stat-desc mt-2 text-sm">
@@ -38,27 +38,35 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       {film.media_type === "tv" && film.number_of_seasons > 0 && (
         <div className="stat">
           <div className="stat-title">No. of Seasons</div>
-          <div className="stat-value">{film.number_of_seasons}</div>
+          <div className="stat-value whitespace-pre-wrap">
+            {film.number_of_seasons}
+          </div>
         </div>
       )}
       {film.media_type === "tv" && film.number_of_episodes > 0 && (
         <div className="stat">
           <div className="stat-title">No. of Episodes</div>
-          <div className="stat-value">{film.number_of_episodes}</div>
+          <div className="stat-value whitespace-pre-wrap">
+            {film.number_of_episodes}
+          </div>
         </div>
       )}
 
       {film.media_type === "movie" && !!film.budget && (
         <div className="stat">
           <div className="stat-title">Budget</div>
-          <div className="stat-value">${film.budget.toLocaleString("en")}</div>
+          <div className="stat-value whitespace-pre-wrap">
+            ${film.budget.toLocaleString("en")}
+          </div>
         </div>
       )}
 
       {film.media_type === "movie" && !!film.revenue && (
         <div className="stat">
           <div className="stat-title">Revenue</div>
-          <div className="stat-value">${film.revenue.toLocaleString("en")}</div>
+          <div className="stat-value whitespace-pre-wrap">
+            ${film.revenue.toLocaleString("en")}
+          </div>
         </div>
       )}
 

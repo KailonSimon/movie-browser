@@ -10,10 +10,9 @@ function FilmBanner({ film }: FilmBannerProps) {
   const posterUrl = `http://image.tmdb.org/t/p/w300${film.poster_path}`;
   const title = film.media_type === "movie" ? film.title : film.name;
   return (
-    <div className="relative w-full p-8 md:py-16 flex justify-center min-h-[40vh]">
-      <div className="absolute top-0 left-0 h-full w-full bg-black opacity-80 z-10" />
+    <div className="relative w-full p-8 md:py-16 flex justify-center">
       <div
-        className="fixed top-0 w-full h-full -z-10 bg-cover bg-center"
+        className="fixed top-0 w-full h-full -z-10 bg-cover bg-center opacity-20"
         style={{
           backgroundImage: `url(${backdropUrl})`,
         }}
