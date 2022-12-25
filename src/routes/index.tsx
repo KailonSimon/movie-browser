@@ -1,60 +1,55 @@
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { useLoaderData } from "react-router-dom";
 import "swiper/css";
-import { fetchHomePageMovies } from "../services/Movies";
-import MovieCarousel from "../components/MovieCarousel";
+import { fetchHomePageFilms } from "../services/Films";
+import FilmCarousel from "../components/FilmCarousel";
+import orderBy from "lodash/orderBy";
+import { Movie, Show } from "../shared/interfaces/film.interface";
 
-const homePageMoviesQuery = () => ({
-  queryKey: ["movies"],
-  queryFn: async () => fetchHomePageMovies(),
-});
-
-export const loader = (queryClient: QueryClient) => async () => {
-  const query = homePageMoviesQuery();
-  return (
-    queryClient.getQueryData(query.queryKey) ??
-    (await queryClient.fetchQuery(query))
-  );
+const homePageFilmsQuery = {
+  queryKey: ["films"],
+  queryFn: fetchHomePageFilms,
 };
+
+export const loader =
+  (queryClient: QueryClient) =>
+  async (): Promise<{
+    popular: (Movie | Show)[];
+    topRated: (Movie | Show)[];
+  }> => {
+    const query = homePageFilmsQuery;
+    return (
+      queryClient.getQueryData(query.queryKey) ??
+      (await queryClient.fetchQuery(query))
+    );
+  };
 
 export default function Index() {
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
   >;
 
-  const { data: movies }: any = useQuery({
-    ...homePageMoviesQuery(),
+  const { data: films } = useQuery({
+    ...homePageFilmsQuery,
     initialData,
   });
 
   return (
-    <div className="w-[calc(100vw-2rem)] max-w-screen-2xl flex flex-col gap-4 md:gap-8 px-4 pt-8 pb-16">
-      {movies?.popularMovies?.length > 0 && (
-        <MovieCarousel
+    <div className="w-[calc(100vw-2rem)] max-w-screen-2xl min-h-[calc(100vh-4rem)] flex flex-col gap-4 md:gap-8 px-4 pt-8 pb-16">
+      {films?.popular?.length > 0 && (
+        <FilmCarousel
           title={"What's Popular"}
-          movies={movies.popularMovies}
-          withRatings
+          films={orderBy(films.popular, [(film) => film.popularity], ["desc"])}
         />
       )}
-      {movies?.nowPlayingMovies?.length > 0 && (
-        <MovieCarousel
-          title={"Now Playing"}
-          movies={movies.nowPlayingMovies}
-          withRatings
-        />
-      )}
-      {movies?.upcomingMovies?.length > 0 && (
-        <MovieCarousel
-          title={"Upcoming Titles"}
-          movies={movies.upcomingMovies}
-          withRatings
-        />
-      )}
-      {movies?.topRatedMovies?.length > 0 && (
-        <MovieCarousel
-          title={"Top Rated Films"}
-          movies={movies.topRatedMovies}
-          withRatings
+      {films?.topRated?.length > 0 && (
+        <FilmCarousel
+          title={"Top Rated Movies & Shows"}
+          films={orderBy(
+            films.topRated,
+            [(film) => film.vote_average],
+            ["desc"]
+          )}
         />
       )}
     </div>

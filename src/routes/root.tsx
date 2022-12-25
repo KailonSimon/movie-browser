@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
 import ScrollToTop from "../components/helpers/ScrollToTop";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navigation/Navbar";
 
 export default function Root() {
   return (

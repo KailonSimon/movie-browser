@@ -1,10 +1,10 @@
 import orderBy from "lodash/orderBy";
 
-export const sortArrayByPopularity: any = (array: []) => {
+export function sortArrayByPopularity(array: any) {
   return [...array].sort(
     (a: any, b: any) => parseFloat(b.popularity) - parseFloat(a.popularity)
   );
-};
+}
 
 export const sortFilmCredits = (
   filmCredits: [],
@@ -46,5 +46,21 @@ export const sortFilmCredits = (
 
     default:
       return filmCredits;
+  }
+};
+
+export const fetchData = async (
+  endpoint: string,
+  language = "en-US",
+  page = 1
+) => {
+  const url = `${process.env.REACT_APP_MOVIE_DB_BASE_URL}${endpoint}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=${language}&page=${page}`;
+  try {
+    const res = await fetch(url);
+    return res.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
   }
 };

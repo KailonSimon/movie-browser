@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { Credit } from "../shared/interfaces/credit.interface";
+import { Person } from "../shared/interfaces/person.interface";
 
-function PersonCard({ person }: any) {
+function PersonCard({ person }: { person: Credit | Person }) {
   return (
     <Link
       to={`/person/${person.id}`}
@@ -19,10 +21,12 @@ function PersonCard({ person }: any) {
         </div>
       )}
 
-      <div className="w-full h-[25%] flex flex-col p-2">
+      <div className="w-full h-[25%] flex flex-col p-2 gap-1 leading-4">
         {" "}
-        <p className="font-bold hover:opacity-80">{person.name}</p>
-        <p className="text-[14px]">{person.character}</p>
+        <p className="font-bold hover:opacity-80 ">{person.name}</p>
+        {"character" in person && (
+          <p className="text-[14px]">{person.character}</p>
+        )}
       </div>
     </Link>
   );

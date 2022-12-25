@@ -6,7 +6,7 @@ import {
   fetchAllMoviesProviders,
   fetchDiscoverResults,
   fetchGenres,
-} from "../services/Movies";
+} from "../services/Films";
 import { useReducer } from "react";
 import {
   reducer as filterReducer,
@@ -17,8 +17,8 @@ import {
   useInfiniteQuery,
   useQueries,
 } from "@tanstack/react-query";
-import MovieCard from "../components/MovieCard";
 import { useInView } from "react-intersection-observer";
+import FilmCard from "../components/FilmCard";
 
 function discoverQuery(filterState: FilterState) {
   return {
@@ -63,7 +63,7 @@ function Discover() {
 
   const initialData = useLoaderData() as any;
   const {
-    data: discoverResults,
+    data,
     isSuccess: discoverIsSuccess,
     hasNextPage,
     fetchNextPage,
@@ -124,20 +124,20 @@ function Discover() {
             functions={filterFunctions}
             genres={genreResults.data.genres}
             providers={providerResults.data.results}
-            numberOfResults={discoverResults.pages[0].total_results}
+            numberOfResults={data.pages[0].total_results}
           />
         )}
       <div className="flex flex-col items-center grow gap-8">
         {discoverIsSuccess && (
           <>
-            <div className="grid grid-cols-[repeat(auto-fill,_150px)] w-full gap-4 justify-items-center md:justify-items-start">
-              {discoverResults.pages.map((group) => (
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(75px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(75px,150px))] w-full gap-4 justify-items-center md:justify-items-start">
+              {data.pages.map((group) => (
                 <Fragment key={group.page}>
-                  {group.results.map((movie: any) => {
-                    if (!movie.poster_path) {
+                  {group.results.map((film) => {
+                    if (!film.poster_path) {
                       return null;
                     }
-                    return <MovieCard movie={movie} key={movie.id} />;
+                    return <FilmCard film={film} key={film.id} />;
                   })}
                 </Fragment>
               ))}
@@ -151,12 +151,12 @@ function Discover() {
                   {[
                     ...Array(
                       getSkeletonItemCount(
-                        discoverResults?.pages[0]?.total_results,
-                        discoverResults?.pages?.length * 20
+                        data?.pages[0]?.total_results,
+                        data?.pages?.length * 20
                       )
                     ),
                   ].map((o, i) => (
-                    <MovieCard key={i} />
+                    <FilmCard key={i} />
                   ))}
                 </>
               )}

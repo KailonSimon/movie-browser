@@ -111,7 +111,7 @@ function Filter({
           </div>
         </div>
         <button
-          className="bg-base-300 md:bg-transparent w-[32px] md:w-min p-2 hover:bg-base-300 rounded text-xl md:text-xs text-primary-focus font-bold flex items-center justify-center md:justify-between gap-1"
+          className="bg-base-300 md:bg-transparent w-[32px] md:w-min h-[32px] p-2 hover:bg-base-300 rounded text-xl md:text-xs text-primary-focus font-bold flex items-center justify-center md:justify-between gap-1"
           onClick={functions.reset}
         >
           <AiOutlineClose />

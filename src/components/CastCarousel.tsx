@@ -1,17 +1,17 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { sortArrayByPopularity } from "../services/API";
+import { Credit } from "../shared/interfaces/credit.interface";
+import { Person } from "../shared/interfaces/person.interface";
 import PersonCard from "./PersonCard";
 
-function MovieCast({ cast }: any) {
+function CastCarousel({ cast }: { cast: Credit[] }) {
   return (
     <div>
-      <h2 className="text-3xl text-neutral-content font-semibold mb-[20px]">
-        Top Billed Cast
-      </h2>
-      <Swiper spaceBetween={16} slidesPerView="auto" className="!py-2">
+      <h2 className="text-2xl text-white font-semibold">Top Billed Cast</h2>
+      <Swiper spaceBetween={20} slidesPerView="auto" className="!py-5">
         {sortArrayByPopularity(cast)
           .splice(0, 10)
-          .map((person: any) => (
+          .map((person: Credit | Person) => (
             <SwiperSlide key={person.id} className="max-w-min">
               <PersonCard person={person} key={person.id} />
             </SwiperSlide>
@@ -21,4 +21,4 @@ function MovieCast({ cast }: any) {
   );
 }
 
-export default MovieCast;
+export default CastCarousel;

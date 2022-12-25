@@ -1,21 +1,29 @@
 import { Link } from "react-router-dom";
+import { Movie, Show } from "../shared/interfaces/film.interface";
 
-function MovieBanner({ movie }: any) {
+type FilmBannerProps = {
+  film: Movie | Show;
+};
+
+function FilmBanner({ film }: FilmBannerProps) {
+  const backdropUrl = `http://image.tmdb.org/t/p/w1280${film.backdrop_path}`;
+  const posterUrl = `http://image.tmdb.org/t/p/w300${film.poster_path}`;
+  const title = film.media_type === "movie" ? film.title : film.name;
   return (
     <div className="relative w-full p-8 md:py-16 flex justify-center min-h-[40vh]">
       <div className="absolute top-0 left-0 h-full w-full bg-black opacity-80 z-10" />
       <div
         className="fixed top-0 w-full h-full -z-10 bg-cover bg-center"
         style={{
-          backgroundImage: `url('http://image.tmdb.org/t/p/w1280${movie.backdrop_path}')`,
+          backgroundImage: `url(${backdropUrl})`,
         }}
       />
 
       <div className="relative flex flex-col justify-center items-center sm:flex-row z-20 w-full max-w-screen-xl gap-8">
         <div className="w-[300px] min-w-[200px] max-w-[50vw]">
           <img
-            src={`http://image.tmdb.org/t/p/w300${movie.poster_path}`}
-            alt={`poster for ${movie.title}`}
+            src={posterUrl}
+            alt={`poster for ${title}`}
             className="rounded-lg shadow shadow-slate-700/40"
             style={{
               width: "100%",
@@ -27,18 +35,15 @@ function MovieBanner({ movie }: any) {
         <div className="flex flex-col justify-center h-full md:max-w-[40%]">
           <div className="flex flex-col gap-2">
             <Link
-              to={`/movie/${movie.id}`}
+              to={`/film/${film.id}`}
               className="text-3xl font-bold hover:opacity-80"
             >
-              {movie.title}{" "}
-              {movie.release_date ? (
-                <span>{`(${movie.release_date.substring(0, 4)})`}</span>
-              ) : null}
+              {title}
             </Link>
-            <p className="italic opacity-75">{movie.tagline}</p>
+            <p className="italic opacity-75">{film.tagline}</p>
           </div>
           <div className="flex flex-wrap gap-1 mt-2">
-            {movie.genres?.map((genre: any) => (
+            {film.genres?.map((genre: any) => (
               <Link
                 to={`/genre/${genre.id}`}
                 key={genre.id}
@@ -52,7 +57,7 @@ function MovieBanner({ movie }: any) {
             <h3 className="text-xl font-semibold mt-[10px] mb-[8px]">
               Overview
             </h3>
-            <p>{movie.overview}</p>
+            <p>{film.overview}</p>
           </div>
         </div>
       </div>
@@ -60,4 +65,4 @@ function MovieBanner({ movie }: any) {
   );
 }
 
-export default MovieBanner;
+export default FilmBanner;

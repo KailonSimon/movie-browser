@@ -1,38 +1,46 @@
 import { Link } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { Movie, Show } from "../shared/interfaces/film.interface";
 
-function MovieCard({ movie, withRating }: any) {
-  if (!movie) {
+type FilmCardProps = {
+  film?: Movie | Show;
+  withRating?: boolean;
+};
+
+function FilmCard({ film, withRating }: FilmCardProps) {
+  if (!film) {
     return (
       <div className="w-[150px] h-[225px] bg-base-300 rounded-lg animate-pulse" />
     );
   }
   return (
     <Link
-      to={`/movie/${movie.id}`}
-      className="w-[150px] h-[225px] max-h-fit inline-flex relative"
+      to={`/${film.media_type}/${film.id}`}
+      className="max-w-[150px] max-h-[225px] inline-flex relative"
     >
-      {movie.poster_path ? (
+      {!!film.poster_path && (
         <img
-          src={`http://image.tmdb.org/t/p/w185${movie.poster_path}`}
-          alt={`poster for ${movie.title}`}
+          src={`http://image.tmdb.org/t/p/w185${film.poster_path}`}
+          alt={`poster for ${
+            "title" in film ? film.title : "name" in film ? film.name : ""
+          }`}
           className="rounded-lg"
         />
-      ) : null}
-      {movie.vote_average > 0 && withRating && (
+      )}
+      {film.vote_average > 0 && withRating && (
         <div className="h-[34px] w-[34px] absolute -bottom-4 left-2">
           <CircularProgressbar
-            value={movie.vote_average * 10}
-            text={`${movie.vote_average * 10}`}
+            value={film.vote_average * 10}
+            text={`${film.vote_average * 10}`}
             background
             classes={{
               root: "w-full align-middle",
               trail: "stroke-base-100",
               path:
-                movie.vote_average > 7
+                film.vote_average > 7
                   ? "stroke-green-500"
-                  : movie.vote_average > 5
+                  : film.vote_average > 5
                   ? "stroke-yellow-300"
                   : "stroke-red-500",
               text: "fill-white text-[38px] font-bold align-middle",
@@ -52,4 +60,4 @@ function MovieCard({ movie, withRating }: any) {
   );
 }
 
-export default MovieCard;
+export default FilmCard;

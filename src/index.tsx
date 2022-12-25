@@ -7,11 +7,13 @@ import Root from "./routes/root";
 import ErrorPage from "./routes/error-page";
 import Index from "./routes";
 import { loader as indexLoader } from "./routes";
-import Movie from "./routes/movie";
+import MovieRoute from "./routes/movie";
 import { loader as movieLoader } from "./routes/movie";
-import Person from "./routes/person";
+import ShowRoute from "./routes/tv";
+import { loader as showLoader } from "./routes/tv";
+import PersonRoute from "./routes/person";
 import { loader as personLoader } from "./routes/person";
-import Genre from "./routes/genre";
+import GenreRoute from "./routes/genre";
 import { loader as genreLoader } from "./routes/genre";
 import Keyword from "./routes/keyword";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -32,17 +34,22 @@ const router = createBrowserRouter([
       },
       {
         path: "movie/:movieId",
-        element: <Movie />,
+        element: <MovieRoute />,
         loader: movieLoader(queryClient),
       },
       {
+        path: "tv/:showId",
+        element: <ShowRoute />,
+        loader: showLoader(queryClient),
+      },
+      {
         path: "person/:personId",
-        element: <Person />,
+        element: <PersonRoute />,
         loader: personLoader(queryClient),
       },
       {
         path: "genre/:genreId",
-        element: <Genre />,
+        element: <GenreRoute />,
         loader: genreLoader(queryClient),
       },
       {

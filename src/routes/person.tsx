@@ -4,7 +4,9 @@ import { fetchPersonDetails } from "../services/People";
 import { sortArrayByPopularity } from "../services/API";
 import PersonFilmographyTable from "../components/PersonFilmographyTable";
 import PersonAbout from "../components/PersonAbout";
-import MovieCarousel from "../components/MovieCarousel";
+import FilmCarousel from "../components/FilmCarousel";
+import { Person } from "../shared/interfaces/person.interface";
+import { Spoiler } from "@mantine/core";
 
 const personInformationQuery = (personId: string) => ({
   queryKey: ["people", personId],
@@ -12,7 +14,7 @@ const personInformationQuery = (personId: string) => ({
 });
 export const loader =
   (queryClient: QueryClient) =>
-  async ({ params }: any) => {
+  async ({ params }: any): Promise<Person> => {
     const query = personInformationQuery(params.personId);
     return (
       queryClient.getQueryData(query.queryKey) ??
@@ -20,12 +22,12 @@ export const loader =
     );
   };
 
-function Person() {
+export default function PersonRoute() {
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
   >;
   const params = useParams();
-  const { data: person }: any = useQuery({
+  const { data: person } = useQuery({
     ...personInformationQuery(params.personId!),
     initialData,
   });
@@ -58,27 +60,41 @@ function Person() {
         <div className="grow overflow-hidden flex flex-col gap-4">
           <h2 className="text-4xl font-bold hidden md:block">{person.name}</h2>
           {person.biography ? (
-            <>
-              <h3 className="text-3xl text-neutral-content font-semibold">
-                Biography
-              </h3>
-              <p>{person.biography}</p>
-            </>
+            <div>
+              <h3 className="text-2xl text-white font-semibold">Biography</h3>
+              <Spoiler
+                maxHeight={120}
+                showLabel="Read more"
+                hideLabel="Hide"
+                classNames={{
+                  root: "py-3",
+                  control:
+                    "text-neutral-content focus:outline-neutral-content w-full flex justify-center md:justify-start mt-1",
+                }}
+              >
+                <p className="text-base">{person.biography}</p>
+              </Spoiler>
+            </div>
           ) : null}
-          <MovieCarousel
-            title="Known for"
-            movies={sortArrayByPopularity(person.combined_credits.cast)}
-          />
-          <PersonFilmographyTable
-            credits={[
-              ...person.combined_credits.cast,
-              ...person.combined_credits.crew,
-            ]}
-          />
+          {person.combined_credits && !!person.combined_credits.cast.length && (
+            <FilmCarousel
+              title="Known for"
+              films={sortArrayByPopularity(person.combined_credits.cast)}
+            />
+          )}
+
+          {person.combined_credits &&
+            !!person.combined_credits.cast.length &&
+            !!person.combined_credits.crew.length && (
+              <PersonFilmographyTable
+                credits={[
+                  ...person.combined_credits.cast,
+                  ...person.combined_credits.crew,
+                ]}
+              />
+            )}
         </div>
       </div>
     </div>
   );
 }
-
-export default Person;

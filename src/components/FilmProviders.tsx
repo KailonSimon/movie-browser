@@ -21,12 +21,10 @@ const providerItems = (title: string, providers: []) => (
   </div>
 );
 
-function MovieProviders({ providers }: any) {
+function FilmProviders({ providers }: any) {
   return (
     <div className="flex flex-col mb-4">
-      <h2 className="text-3xl text-neutral-content font-semibold mb-4">
-        Watch Now
-      </h2>
+      <h2 className="text-2xl text-white font-semibold mb-4">Watch Now</h2>
       {providers?.flatrate?.length > 0 &&
         providerItems("Stream", providers.flatrate)}
       {providers?.rent?.length > 0 && providerItems("Rent", providers.rent)}
@@ -46,4 +44,4 @@ function MovieProviders({ providers }: any) {
   );
 }
 
-export default MovieProviders;
+export default FilmProviders;

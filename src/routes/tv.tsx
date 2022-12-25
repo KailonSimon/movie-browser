@@ -6,30 +6,30 @@ import CastCarousel from "../components/CastCarousel";
 import FilmProviders from "../components/FilmProviders";
 import { fetchFilmPageDetails } from "../services/Films";
 import FilmCarousel from "../components/FilmCarousel";
-import { Movie } from "../shared/interfaces/film.interface";
+import { Show } from "../shared/interfaces/film.interface";
 
-const movieInformationQuery = (movieId: string) => ({
-  queryKey: ["movies", "details", movieId],
-  queryFn: async () => fetchFilmPageDetails(movieId, "movie"),
+const showInformationQuery = (showId: string) => ({
+  queryKey: ["shows", "details", showId],
+  queryFn: async () => fetchFilmPageDetails(showId, "tv"),
 });
 
 export const loader =
   (queryClient: QueryClient) =>
-  async ({ params }: any): Promise<{ film: Movie; providers: any }> => {
-    const query = movieInformationQuery(params.movieId);
+  async ({ params }: any): Promise<{ film: Show; providers: any }> => {
+    const query = showInformationQuery(params.showId);
     return (
       queryClient.getQueryData(query.queryKey) ??
       (await queryClient.fetchQuery(query))
     );
   };
 
-export default function MovieRoute() {
+export default function ShowRoute() {
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
   >;
   const params = useParams();
   const { data } = useQuery({
-    ...movieInformationQuery(params.movieId!),
+    ...showInformationQuery(params.showId!),
     initialData,
   });
 
