@@ -28,7 +28,7 @@ export default function ShowRoute() {
     ReturnType<ReturnType<typeof loader>>
   >;
   const params = useParams();
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     ...showInformationQuery(params.showId!),
     initialData,
   });
@@ -58,6 +58,7 @@ export default function ShowRoute() {
               <FilmCarousel
                 title={"Recommended Titles"}
                 films={data.film.recommendations.results}
+                loading={isLoading}
               />
             )}
           </div>

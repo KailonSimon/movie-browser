@@ -29,29 +29,24 @@ export default function Index() {
     ReturnType<ReturnType<typeof loader>>
   >;
 
-  const { data: films } = useQuery({
+  const { data: films, isLoading } = useQuery({
     ...homePageFilmsQuery,
     initialData,
   });
 
   return (
     <div className="w-[calc(100vw-2rem)] max-w-screen-2xl min-h-[calc(100vh-4rem)] flex flex-col gap-4 md:gap-8 px-4 pt-8 pb-16">
-      {films?.popular?.length > 0 && (
-        <FilmCarousel
-          title={"What's Popular"}
-          films={orderBy(films.popular, [(film) => film.popularity], ["desc"])}
-        />
-      )}
-      {films?.topRated?.length > 0 && (
-        <FilmCarousel
-          title={"Top Rated Movies & Shows"}
-          films={orderBy(
-            films.topRated,
-            [(film) => film.vote_average],
-            ["desc"]
-          )}
-        />
-      )}
+      <FilmCarousel
+        title={"What's Popular"}
+        films={orderBy(films.popular, [(film) => film.popularity], ["desc"])}
+        loading={isLoading}
+      />
+
+      <FilmCarousel
+        title={"Top Rated Movies & Shows"}
+        films={orderBy(films.topRated, [(film) => film.vote_average], ["desc"])}
+        loading={isLoading}
+      />
     </div>
   );
 }
