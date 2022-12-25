@@ -1,13 +1,12 @@
-import { TextInput } from "@mantine/core";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { AiOutlineSearch } from "react-icons/ai";
 import NavDrawer from "./NavDrawer";
 import { useEffect, useState } from "react";
+import SearchBar from "./SearchBar";
 
 const NavLinks = () => {
   let activeClassName = "font-bold text-neutral-content";
   return (
-    <ul className="px-1 inline-flex flex-col md:flex-row w-max gap-8 text-2xl md:text-base">
+    <ul className="px-1 inline-flex flex-col md:flex-row w-max gap-4 md:gap-8 text-2xl md:text-base">
       <li>
         <NavLink
           to="/"
@@ -68,19 +67,7 @@ function Navbar() {
         </div>
 
         <div className="hidden md:flex navbar-end">
-          <div className="form-control">
-            <TextInput
-              classNames={{
-                wrapper: "hidden md:flex",
-                input:
-                  "bg-transparent border-base-300 focus:border-neutral-content rounded-full text-white",
-              }}
-              placeholder="Search"
-              icon={
-                <AiOutlineSearch size={16} className="fill-neutral-content" />
-              }
-            />
-          </div>
+          <SearchBar />
         </div>
       </div>
     </div>

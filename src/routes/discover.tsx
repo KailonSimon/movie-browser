@@ -1,7 +1,6 @@
-import { useEffect, Fragment } from "react";
+import { useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 import DiscoverFilter from "../components/DiscoverFilter";
-import { FilterFunctions, FilterState, initialState } from "../services/Filter";
 import {
   fetchAllMoviesProviders,
   fetchDiscoverResults,
@@ -9,16 +8,17 @@ import {
 } from "../services/Films";
 import { useReducer } from "react";
 import {
+  FilterFunctions,
   reducer as filterReducer,
   initialState as filterInitialState,
+  FilterState,
 } from "../services/Filter";
 import {
   QueryClient,
   useInfiniteQuery,
   useQueries,
 } from "@tanstack/react-query";
-import { useInView } from "react-intersection-observer";
-import FilmCard from "../components/FilmCard";
+import FilmGrid from "../components/containers/FilmGrid";
 
 function discoverQuery(filterState: FilterState) {
   return {
@@ -41,16 +41,8 @@ const filterQueries = [
   },
 ];
 
-const getSkeletonItemCount = (totalItems: number, shownItems: number) => {
-  if (totalItems - shownItems > 20) {
-    return 19;
-  } else {
-    return totalItems - shownItems - 1;
-  }
-};
-
 export const loader = (queryClient: QueryClient) => async () => {
-  const query = discoverQuery(initialState);
+  const query = discoverQuery(filterInitialState);
   return (
     queryClient.getQueryData(query.queryKey) ??
     (await queryClient.fetchQuery(query))
@@ -59,7 +51,6 @@ export const loader = (queryClient: QueryClient) => async () => {
 
 function Discover() {
   const [filterState, dispatch] = useReducer(filterReducer, filterInitialState);
-  const { ref: loaderRef, inView } = useInView();
 
   const initialData = useLoaderData() as any;
   const {
@@ -83,12 +74,6 @@ function Discover() {
   useEffect(() => {
     refetch();
   }, [filterState, refetch]);
-
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
-  }, [inView, fetchNextPage]);
 
   const filterFunctions: FilterFunctions = {
     setMedium: (value) => dispatch({ type: "SET_MEDIUM", payload: value }),
@@ -127,43 +112,15 @@ function Discover() {
             numberOfResults={data.pages[0].total_results}
           />
         )}
-      <div className="flex flex-col items-center grow gap-8">
-        {discoverIsSuccess && (
-          <>
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(75px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(75px,150px))] w-full gap-4 justify-items-center md:justify-items-start">
-              {data.pages.map((group) => (
-                <Fragment key={group.page}>
-                  {group.results.map((film) => {
-                    if (!film.poster_path) {
-                      return null;
-                    }
-                    return <FilmCard film={film} key={film.id} />;
-                  })}
-                </Fragment>
-              ))}
 
-              {hasNextPage && (
-                <>
-                  <div
-                    className="w-[150px] h-[225px] bg-base-300 rounded-lg animate-pulse"
-                    ref={loaderRef}
-                  />
-                  {[
-                    ...Array(
-                      getSkeletonItemCount(
-                        data?.pages[0]?.total_results,
-                        data?.pages?.length * 20
-                      )
-                    ),
-                  ].map((o, i) => (
-                    <FilmCard key={i} />
-                  ))}
-                </>
-              )}
-            </div>
-          </>
-        )}
-      </div>
+      {discoverIsSuccess && (
+        <FilmGrid
+          films={data.pages.flatMap((page) => page.results.map((film) => film))}
+          totalFilms={data.pages[0].total_results}
+          hasNextPage={hasNextPage}
+          fetchNextPage={fetchNextPage}
+        />
+      )}
     </div>
   );
 }

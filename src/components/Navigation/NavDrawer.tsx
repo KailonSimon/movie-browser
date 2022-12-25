@@ -23,6 +23,7 @@ export default function NavDrawer({
           root: "mt-[66px]",
           drawer: "mt-[66px] bg-base-100 text-white",
           header: "hidden",
+          body: "flex justify-center text-center",
         }}
       >
         {children}

@@ -64,3 +64,17 @@ export const fetchData = async (
     }
   }
 };
+
+export const fetchSearchResults = async (query: string) => {
+  const url =
+    `${process.env.REACT_APP_MOVIE_DB_BASE_URL}search/multi?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US&page=1&include_adult=false&` +
+    new URLSearchParams({ query });
+  try {
+    const res = await fetch(url);
+    return res.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+  }
+};

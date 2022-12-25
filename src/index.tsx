@@ -15,9 +15,12 @@ import PersonRoute from "./routes/person";
 import { loader as personLoader } from "./routes/person";
 import GenreRoute from "./routes/genre";
 import { loader as genreLoader } from "./routes/genre";
+import SearchRoute from "./routes/search";
+import { loader as searchLoader } from "./routes/search";
 import Keyword from "./routes/keyword";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Discover from "./routes/discover";
+import { loader as discoverLoader } from "./routes/discover";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +62,12 @@ const router = createBrowserRouter([
       {
         path: "discover",
         element: <Discover />,
+        loader: discoverLoader(queryClient),
+      },
+      {
+        path: "search/:query",
+        element: <SearchRoute />,
+        loader: searchLoader(queryClient),
       },
     ],
   },
