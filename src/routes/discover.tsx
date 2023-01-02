@@ -102,6 +102,7 @@ function Discover() {
   return (
     <div className="flex flex-col w-full max-w-screen-2xl p-8 md:px-4 gap-8 md:gap-4">
       {discoverIsSuccess &&
+        !!data?.pages?.length &&
         genreResults.isSuccess &&
         providerResults.isSuccess && (
           <DiscoverFilter
