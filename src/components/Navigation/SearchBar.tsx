@@ -1,5 +1,5 @@
+import { useState, SyntheticEvent } from "react";
 import { TextInput } from "@mantine/core";
-import { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
@@ -7,8 +7,13 @@ function SearchBar() {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
 
+  const handleSubmit = (event: SyntheticEvent) => {
+    event.preventDefault();
+    navigate(`search/${input}`);
+  };
+
   return (
-    <form onSubmit={() => navigate(`/search/${input}`)}>
+    <form onSubmit={handleSubmit}>
       <TextInput
         classNames={{
           wrapper: "hidden md:flex",

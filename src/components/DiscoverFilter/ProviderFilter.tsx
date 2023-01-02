@@ -95,7 +95,7 @@ function ProviderFilter({
                 }}
               >
                 <img
-                  src={`http://image.tmdb.org/t/p/w92/${provider.logo_path}`}
+                  src={`https://image.tmdb.org/t/p/w92/${provider.logo_path}`}
                   alt={provider.provider_name}
                   className="rounded-xl"
                 />

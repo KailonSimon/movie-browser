@@ -2,6 +2,7 @@ import { fetchSearchResults } from "../services/API";
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { useLoaderData, useParams } from "react-router-dom";
 import FilmGrid from "../components/containers/FilmGrid";
+import { useEffect } from "react";
 
 const searchQuery = (query: string) => ({
   queryKey: ["search"],
@@ -23,10 +24,14 @@ export default function SearchRoute() {
     ReturnType<ReturnType<typeof loader>>
   >;
   const params = useParams();
-  const { data, isSuccess } = useQuery({
+  const { data, refetch, isSuccess } = useQuery({
     ...searchQuery(params.query!),
     initialData,
   });
+
+  useEffect(() => {
+    refetch();
+  }, [params, refetch]);
 
   return (
     <div className="w-full relative p-8">
