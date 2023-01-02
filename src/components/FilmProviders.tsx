@@ -9,7 +9,7 @@ const providerItems = (title: string, providers: []) => (
           data-tip={provider.provider_name}
         >
           <img
-            src={`http://image.tmdb.org/t/p/w92/${provider.logo_path}`}
+            src={`https://image.tmdb.org/t/p/w92/${provider.logo_path}`}
             alt={provider.provider_name}
             className="rounded-xl tooltip"
             data-tip={provider.provider_name}

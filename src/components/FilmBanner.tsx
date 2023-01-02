@@ -6,8 +6,8 @@ type FilmBannerProps = {
 };
 
 function FilmBanner({ film }: FilmBannerProps) {
-  const backdropUrl = `http://image.tmdb.org/t/p/w1280${film.backdrop_path}`;
-  const posterUrl = `http://image.tmdb.org/t/p/w300${film.poster_path}`;
+  const backdropUrl = `https://image.tmdb.org/t/p/w1280${film.backdrop_path}`;
+  const posterUrl = `https://image.tmdb.org/t/p/w300${film.poster_path}`;
   const title = film.media_type === "movie" ? film.title : film.name;
   return (
     <div className="relative w-full p-8 md:py-16 flex justify-center">

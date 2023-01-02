@@ -21,7 +21,7 @@ function FilmCard({ film, withRating }: FilmCardProps) {
     >
       {!!film.poster_path && (
         <img
-          src={`http://image.tmdb.org/t/p/w185${film.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w185${film.poster_path}`}
           alt={`poster for ${
             "title" in film ? film.title : "name" in film ? film.name : ""
           }`}

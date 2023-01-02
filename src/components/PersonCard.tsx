@@ -10,7 +10,7 @@ function PersonCard({ person }: { person: Credit | Person }) {
     >
       {person.profile_path ? (
         <img
-          src={`http://image.tmdb.org/t/p/w185/${person.profile_path}`}
+          src={`https://image.tmdb.org/t/p/w185/${person.profile_path}`}
           alt={person.name}
           style={{ width: 138, height: 175, objectFit: "cover" }}
           className="rounded-lg"

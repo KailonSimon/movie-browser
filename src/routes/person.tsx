@@ -38,7 +38,7 @@ export default function PersonRoute() {
         <div className="flex flex-col min-w-[300px] items-center md:items-start">
           {person.profile_path ? (
             <img
-              src={`http://image.tmdb.org/t/p/original/${person.profile_path}`}
+              src={`https://image.tmdb.org/t/p/original/${person.profile_path}`}
               alt={person.name}
               style={{
                 height: 450,
