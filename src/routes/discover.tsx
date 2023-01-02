@@ -113,7 +113,7 @@ function Discover() {
           />
         )}
 
-      {discoverIsSuccess && (
+      {discoverIsSuccess && !!data?.pages?.length && (
         <FilmGrid
           films={data.pages.flatMap((page) => page.results.map((film) => film))}
           totalFilms={data.pages[0].total_results}
