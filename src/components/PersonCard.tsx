@@ -6,7 +6,7 @@ function PersonCard({ person }: { person: Credit | Person }) {
   return (
     <Link
       to={`/person/${person.id}`}
-      className="inline-flex flex-col w-[140px] h-[255px]"
+      className="inline-flex flex-col w-[140px] h-[255px] noSelect"
     >
       {person.profile_path ? (
         <img

@@ -1,6 +1,8 @@
-import { Swiper, SwiperSlide } from "swiper/react";
 import { Movie, Show } from "../shared/interfaces/film.interface";
 import FilmCard from "./FilmCard";
+import { Navigation } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/navigation";
 
 type FilmCarouselProps = {
   title: string;
@@ -22,7 +24,8 @@ function FilmCarousel({
         spaceBetween={20}
         slidesPerView="auto"
         className="!py-5"
-        loop={true}
+        modules={[Navigation]}
+        navigation
       >
         {loading || !films
           ? [...Array(8)].map((item, index) => (
