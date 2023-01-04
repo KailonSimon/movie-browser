@@ -1,11 +1,11 @@
-import { Movie, Show } from "../shared/interfaces/film.interface";
+import { Movie, Show } from "../../shared/interfaces/film.interface";
 import FilmCard from "./FilmCard";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/navigation";
 
 type FilmCarouselProps = {
-  title: string;
+  title?: string;
   films?: (Movie | Show)[];
   withRatings?: boolean;
   loading?: boolean;

@@ -56,7 +56,7 @@ function Navbar() {
         <div className="flex w-full justify-center md:navbar-start">
           <Link
             to="/"
-            className="btn btn-ghost normal-case text-xl flex flex-nowrap w-min b"
+            className="btn btn-ghost normal-case text-xl flex flex-nowrap w-min !bg-transparent"
           >
             Movie<span className="text-base-content">Browser</span>
           </Link>

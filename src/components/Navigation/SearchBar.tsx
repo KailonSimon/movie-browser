@@ -9,6 +9,7 @@ function SearchBar() {
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
+    setInput("");
     navigate(`search/${input}`);
   };
 

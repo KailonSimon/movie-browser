@@ -1,6 +1,6 @@
 import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import FilmCard from "../FilmCard";
+import FilmCard from "./FilmCard";
 import { Movie, Show } from "../../shared/interfaces/film.interface";
 
 interface FilmGridProps {

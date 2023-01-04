@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { Movie, Show } from "../shared/interfaces/film.interface";
+import { Movie, Show } from "../../shared/interfaces/film.interface";
 
 type FilmCardProps = {
   film?: Movie | Show;

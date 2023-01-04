@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { Credit } from "../shared/interfaces/credit.interface";
-import { Person } from "../shared/interfaces/person.interface";
+import { Credit } from "../../shared/interfaces/credit.interface";
+import { Person } from "../../shared/interfaces/person.interface";
 
 function PersonCard({ person }: { person: Credit | Person }) {
   return (

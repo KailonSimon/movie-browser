@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
-import { sortFilmCredits } from "../services/API";
+import { sortFilmCredits } from "../../services/API";
 
 function PersonFilmographyTable({ credits }: any) {
   const [sort, setSort] = useState({

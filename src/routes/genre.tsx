@@ -1,7 +1,7 @@
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { fetchFilmsByGenreID } from "../services/Films";
 import { useLoaderData, useParams } from "react-router-dom";
-import FilmCard from "../components/FilmCard";
+import FilmCard from "../components/Film/FilmCard";
 import { Genre } from "../shared/interfaces/genre.interface";
 import { Movie, Show } from "../shared/interfaces/film.interface";
 

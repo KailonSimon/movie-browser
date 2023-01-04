@@ -32,7 +32,9 @@ export const fetchSimilarMovies = async (movieId: string) => {
 
 export const fetchMovieCredits = async (movieId: string) =>
   await fetch(`
-       movie/${movieId}/credits`).then((res) => res.json());
+  ${process.env.REACT_APP_MOVIE_DB_BASE_URL}movie/${movieId}/credits`).then(
+    (res) => res.json()
+  );
 
 export async function fetchFilmsByCategory(
   mediaType: "movie" | "tv",
@@ -68,7 +70,7 @@ export const fetchFilmPageDetails: FetchFilmPageDetails = async (
 ) => {
   const [film, providers] = await Promise.all([
     fetch(
-      `${process.env.REACT_APP_MOVIE_DB_BASE_URL}${media_type}/${filmId}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US&append_to_response=credits,keywords,recommendations`
+      `${process.env.REACT_APP_MOVIE_DB_BASE_URL}${media_type}/${filmId}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US&append_to_response=credits,keywords,recommendations,videos`
     ).then((res) => res.json()),
     fetchProvidersById(filmId, media_type),
   ]);

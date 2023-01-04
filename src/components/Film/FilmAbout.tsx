@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-import { Movie, Show } from "../shared/interfaces/film.interface";
+import { Movie, Show } from "../../shared/interfaces/film.interface";
 
 function FilmAbout({ film }: { film: Movie | Show }) {
   const keywords =
@@ -12,21 +12,25 @@ function FilmAbout({ film }: { film: Movie | Show }) {
     <div className="stats stats-vertical bg-base-200 flex flex-col max-w-[28rem] h-min gap-4 w-full col-span-2 py-2">
       <div className="stat">
         <div className="stat-title">Status</div>
-        <div className="stat-value whitespace-pre-wrap">{film.status}</div>
+        <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl">
+          {film.status}
+        </div>
 
         <div className="stat-desc mt-2 text-sm">
-          {dayjs(
+          {`${
+            film.media_type === "movie" ? "Release date" : "First air date"
+          }: ${dayjs(
             film.media_type === "movie"
               ? film.release_date
               : film.first_air_date
-          ).format("MMMM D, YYYY")}
+          ).format("MMMM D, YYYY")}`}
         </div>
       </div>
 
       {film.vote_average > 0 ? (
         <div className="stat">
           <div className="stat-title">Rating</div>
-          <div className="stat-value whitespace-pre-wrap">
+          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl">
             {Math.floor(film.vote_average * 10)}%
           </div>
           <div className="stat-desc mt-2 text-sm">
@@ -38,7 +42,7 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       {film.media_type === "tv" && film.number_of_seasons > 0 && (
         <div className="stat">
           <div className="stat-title">No. of Seasons</div>
-          <div className="stat-value whitespace-pre-wrap">
+          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl">
             {film.number_of_seasons}
           </div>
         </div>
@@ -46,7 +50,7 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       {film.media_type === "tv" && film.number_of_episodes > 0 && (
         <div className="stat">
           <div className="stat-title">No. of Episodes</div>
-          <div className="stat-value whitespace-pre-wrap">
+          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl">
             {film.number_of_episodes}
           </div>
         </div>
@@ -55,7 +59,7 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       {film.media_type === "movie" && !!film.budget && (
         <div className="stat">
           <div className="stat-title">Budget</div>
-          <div className="stat-value whitespace-pre-wrap">
+          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl">
             ${film.budget.toLocaleString("en")}
           </div>
         </div>
@@ -64,7 +68,7 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       {film.media_type === "movie" && !!film.revenue && (
         <div className="stat">
           <div className="stat-title">Revenue</div>
-          <div className="stat-value whitespace-pre-wrap">
+          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl">
             ${film.revenue.toLocaleString("en")}
           </div>
         </div>

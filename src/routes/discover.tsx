@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
-import DiscoverFilter from "../components/DiscoverFilter";
+import DiscoverFilter from "../components/DiscoverFilter/DiscoverFilter";
 import {
   fetchAllMoviesProviders,
   fetchDiscoverResults,
@@ -18,7 +18,7 @@ import {
   useInfiniteQuery,
   useQueries,
 } from "@tanstack/react-query";
-import FilmGrid from "../components/containers/FilmGrid";
+import FilmGrid from "../components/Film/FilmGrid";
 
 function discoverQuery(filterState: FilterState) {
   return {

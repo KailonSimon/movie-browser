@@ -2,9 +2,9 @@ import { QueryClient, useQuery } from "@tanstack/react-query";
 import { useLoaderData, useParams } from "react-router-dom";
 import { fetchPersonDetails } from "../services/People";
 import { sortArrayByPopularity } from "../services/API";
-import PersonFilmographyTable from "../components/PersonFilmographyTable";
-import PersonAbout from "../components/PersonAbout";
-import FilmCarousel from "../components/FilmCarousel";
+import PersonFilmographyTable from "../components/Person/PersonFilmographyTable";
+import PersonAbout from "../components/Person/PersonAbout";
+import FilmCarousel from "../components/Film/FilmCarousel";
 import { Person } from "../shared/interfaces/person.interface";
 import { Spoiler } from "@mantine/core";
 

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Movie, Show } from "../shared/interfaces/film.interface";
+import { Movie, Show } from "../../shared/interfaces/film.interface";
 
 type FilmBannerProps = {
   film: Movie | Show;
@@ -35,18 +35,20 @@ function FilmBanner({ film }: FilmBannerProps) {
           <div className="flex flex-col gap-2">
             <Link
               to={`/film/${film.id}`}
-              className="text-3xl font-bold hover:opacity-80"
+              className="text-3xl text-center sm:text-left font-bold hover:opacity-80"
             >
               {title}
             </Link>
-            <p className="italic opacity-75">{film.tagline}</p>
+            <p className="italic opacity-75 text-center sm:text-left">
+              {film.tagline}
+            </p>
           </div>
-          <div className="flex flex-wrap gap-1 mt-2">
+          <div className="flex flex-wrap justify-center sm:justify-start gap-1 mt-2">
             {film.genres?.map((genre: any) => (
               <Link
                 to={`/genre/${genre.id}`}
                 key={genre.id}
-                className="bg-base-100 hover:opacity-80 rounded-full px-3 py-1 whitespace-nowrap"
+                className="hover:opacity-80 rounded-full px-3 py-1 whitespace-nowrap glass"
               >
                 {genre.name}
               </Link>

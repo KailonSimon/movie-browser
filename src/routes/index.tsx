@@ -2,7 +2,7 @@ import { QueryClient, useQuery } from "@tanstack/react-query";
 import { useLoaderData } from "react-router-dom";
 import "swiper/css";
 import { fetchHomePageFilms } from "../services/Films";
-import FilmCarousel from "../components/FilmCarousel";
+import FilmCarousel from "../components/Film/FilmCarousel";
 import orderBy from "lodash/orderBy";
 import { Movie, Show } from "../shared/interfaces/film.interface";
 

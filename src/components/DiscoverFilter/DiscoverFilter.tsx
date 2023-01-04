@@ -1,16 +1,16 @@
-import { FilterFunctions, FilterState } from "../services/Filter";
+import { FilterFunctions, FilterState } from "../../services/Filter";
 import orderBy from "lodash/orderBy";
-import ReleaseDateFilter from "./DiscoverFilter/ReleaseDateFilter";
-import MediumFilter from "./DiscoverFilter/MediumFilter";
-import GenreFilter from "./DiscoverFilter/GenreFilter";
-import RatingFilter from "./DiscoverFilter/RatingFilter";
-import RuntimeFilter from "./DiscoverFilter/RuntimeFilter";
-import PriceFilter from "./DiscoverFilter/PriceFilter";
-import FilterSort from "./DiscoverFilter/FilterSort";
-import ProviderFilter from "./DiscoverFilter/ProviderFilter";
+import ReleaseDateFilter from "./ReleaseDateFilter";
+import MediumFilter from "./MediumFilter";
+import GenreFilter from "./GenreFilter";
+import RatingFilter from "./RatingFilter";
+import RuntimeFilter from "./RuntimeFilter";
+import PriceFilter from "./PriceFilter";
+import FilterSort from "./FilterSort";
+import ProviderFilter from "./ProviderFilter";
 import { AiOutlineClose } from "react-icons/ai";
-import FilterSelectContainer from "./DiscoverFilter/containers/FilterSelectContainer";
-import FilterDrawer from "./DiscoverFilter/containers/FilterDrawer";
+import FilterSelectContainer from "./containers/FilterSelectContainer";
+import FilterDrawer from "./containers/FilterDrawer";
 
 type FilterProps = {
   state: FilterState;

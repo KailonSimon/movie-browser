@@ -1,5 +1,6 @@
 import { Credit } from "./credit.interface";
 import { Genre, Keyword } from "./genre.interface";
+import { Video } from "./video.interface";
 
 export interface Film {
   backdrop_path?: string;
@@ -25,6 +26,9 @@ export interface Film {
   status_message?: string;
   status_code?: number;
   tagline?: string;
+  videos?: {
+    results: Video[];
+  };
   vote_average: number;
   vote_count: number;
 }
