@@ -1,7 +1,7 @@
 import { fetchSearchResults } from "../services/API";
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { useLoaderData, useParams } from "react-router-dom";
-import FilmGrid from "../components/Film/FilmGrid";
+import { FilmGrid } from "../components/Film";
 import { useEffect } from "react";
 
 const searchQuery = (query: string) => ({

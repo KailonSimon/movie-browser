@@ -18,7 +18,7 @@ import {
   useInfiniteQuery,
   useQueries,
 } from "@tanstack/react-query";
-import FilmGrid from "../components/Film/FilmGrid";
+import { FilmGrid } from "../components/Film";
 
 function discoverQuery(filterState: FilterState) {
   return {

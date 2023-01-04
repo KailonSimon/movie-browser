@@ -2,7 +2,7 @@ import { QueryClient, useQuery } from "@tanstack/react-query";
 import { useLoaderData, useParams } from "react-router-dom";
 import { fetchFilmPageDetails } from "../services/Films";
 import { Show } from "../shared/interfaces/film.interface";
-import FilmView from "../components/Film/FilmView";
+import { FilmView } from "../components/Film";
 
 const showInformationQuery = (showId: string) => ({
   queryKey: ["shows", "details", showId],

@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
-import Footer from "../components/Navigation/Footer";
+import { Navbar, Footer } from "../components/Navigation";
 import ScrollToTop from "../components/helpers/ScrollToTop";
-import Navbar from "../components/Navigation/Navbar";
 
 export default function Root() {
   return (
