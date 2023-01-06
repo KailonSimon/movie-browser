@@ -17,7 +17,6 @@ import GenreRoute from "./routes/genre";
 import { loader as genreLoader } from "./routes/genre";
 import SearchRoute from "./routes/search";
 import { loader as searchLoader } from "./routes/search";
-import Keyword from "./routes/keyword";
 import Discover from "./routes/discover";
 import { loader as discoverLoader } from "./routes/discover";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -54,10 +53,6 @@ const router = createBrowserRouter([
         path: "genre/:genreId",
         element: <GenreRoute />,
         loader: genreLoader(queryClient),
-      },
-      {
-        path: "keyword/:keywordId",
-        element: <Keyword />,
       },
       {
         path: "discover",

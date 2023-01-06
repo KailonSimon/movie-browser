@@ -44,8 +44,8 @@ function Navbar() {
   }, [pathname]);
 
   return (
-    <div className="navbar fixed bg-base-200 md:px-8 flex z-[99]">
-      <div className="w-full max-w-screen-2xl relative">
+    <div className="navbar fixed md:px-8 flex z-[99] backdrop-filter backdrop-blur-lg bg-base-100/50">
+      <nav className="w-full max-w-screen-2xl relative">
         <NavDrawer
           opened={drawerOpened}
           setOpened={(value) => setDrawerOpened(value)}
@@ -69,7 +69,7 @@ function Navbar() {
         <div className="hidden md:flex navbar-end">
           <SearchBar />
         </div>
-      </div>
+      </nav>
     </div>
   );
 }

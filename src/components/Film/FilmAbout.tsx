@@ -9,10 +9,10 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       : film.keywords?.results;
 
   return (
-    <div className="stats stats-vertical bg-base-200 flex flex-col max-w-[28rem] h-min gap-4 w-full col-span-2 py-2">
+    <div className="stats stats-vertical bg-base-200 flex flex-col max-w-[28rem] h-min gap-4 w-full col-span-2 py-2 border border-base-300">
       <div className="stat">
         <div className="stat-title">Status</div>
-        <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl">
+        <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl font-display">
           {film.status}
         </div>
 
@@ -30,7 +30,7 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       {film.vote_average > 0 ? (
         <div className="stat">
           <div className="stat-title">Rating</div>
-          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl">
+          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl font-display">
             {Math.floor(film.vote_average * 10)}%
           </div>
           <div className="stat-desc mt-2 text-sm">
@@ -42,7 +42,7 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       {film.media_type === "tv" && film.number_of_seasons > 0 && (
         <div className="stat">
           <div className="stat-title">No. of Seasons</div>
-          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl">
+          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl font-display">
             {film.number_of_seasons}
           </div>
         </div>
@@ -50,7 +50,7 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       {film.media_type === "tv" && film.number_of_episodes > 0 && (
         <div className="stat">
           <div className="stat-title">No. of Episodes</div>
-          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl">
+          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl font-display">
             {film.number_of_episodes}
           </div>
         </div>
@@ -59,7 +59,7 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       {film.media_type === "movie" && !!film.budget && (
         <div className="stat">
           <div className="stat-title">Budget</div>
-          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl">
+          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl font-display">
             ${film.budget.toLocaleString("en")}
           </div>
         </div>
@@ -68,7 +68,7 @@ function FilmAbout({ film }: { film: Movie | Show }) {
       {film.media_type === "movie" && !!film.revenue && (
         <div className="stat">
           <div className="stat-title">Revenue</div>
-          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl">
+          <div className="stat-value whitespace-pre-wrap text-2xl lg:text-4xl font-display">
             ${film.revenue.toLocaleString("en")}
           </div>
         </div>
@@ -82,7 +82,7 @@ function FilmAbout({ film }: { film: Movie | Show }) {
               {keywords.map((keyword: any) => (
                 <li key={keyword.id} className="py-1">
                   <Link
-                    to={`/keyword/${keyword.id}`}
+                    to={`/search/${keyword.name}`}
                     className="rounded border border-neutral-content px-[10px] py-1 whitespace-nowrap hover:opacity-80"
                   >
                     {keyword.name}

@@ -17,7 +17,7 @@ function FilmCard({ film, withRating }: FilmCardProps) {
   return (
     <Link
       to={`/${film.media_type}/${film.id}`}
-      className="max-w-[150px] max-h-[225px] inline-flex relative noSelect"
+      className="max-w-[150px] max-h-[225px] inline-flex relative lg:hover:scale-105 transition-transform noSelect"
     >
       {!!film.poster_path && (
         <img

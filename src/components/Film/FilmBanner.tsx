@@ -9,14 +9,17 @@ function FilmBanner({ film }: FilmBannerProps) {
   const backdropUrl = `https://image.tmdb.org/t/p/w1280${film.backdrop_path}`;
   const posterUrl = `https://image.tmdb.org/t/p/w300${film.poster_path}`;
   const title = film.media_type === "movie" ? film.title : film.name;
+
   return (
     <div className="relative w-full p-8 md:py-16 flex justify-center">
-      <div
-        className="fixed top-0 w-full h-full -z-10 bg-cover bg-center opacity-20"
-        style={{
-          backgroundImage: `url(${backdropUrl})`,
-        }}
-      />
+      {!!film.backdrop_path && (
+        <div
+          className="fixed top-0 w-full h-full -z-10 bg-cover bg-center opacity-20"
+          style={{
+            backgroundImage: `url(${backdropUrl})`,
+          }}
+        />
+      )}
 
       <div className="relative flex flex-col justify-center items-center sm:flex-row z-20 w-full max-w-screen-xl gap-8">
         <div className="w-[300px] min-w-[200px] max-w-[50vw]">
@@ -33,12 +36,9 @@ function FilmBanner({ film }: FilmBannerProps) {
         </div>
         <div className="flex flex-col justify-center h-full md:max-w-[40%]">
           <div className="flex flex-col gap-2">
-            <Link
-              to={`/film/${film.id}`}
-              className="text-3xl text-center sm:text-left font-bold hover:opacity-80"
-            >
+            <h1 className="text-5xl text-center text-neutral-content sm:text-left font-bold font-display">
               {title}
-            </Link>
+            </h1>
             <p className="italic opacity-75 text-center sm:text-left">
               {film.tagline}
             </p>
@@ -48,7 +48,7 @@ function FilmBanner({ film }: FilmBannerProps) {
               <Link
                 to={`/genre/${genre.id}`}
                 key={genre.id}
-                className="hover:opacity-80 rounded-full px-3 py-1 whitespace-nowrap glass"
+                className="hover:opacity-80 rounded-full px-3 py-1 whitespace-nowrap glass font-display"
               >
                 {genre.name}
               </Link>

@@ -38,7 +38,10 @@ function FilmCarousel({
                 return null;
               }
               return (
-                <SwiperSlide key={film.id} className="max-w-fit">
+                <SwiperSlide
+                  key={film.id}
+                  className="max-w-fit max-h-min lg:hover:scale-110 transition-transform"
+                >
                   <FilmCard film={film} withRating={withRatings} />
                 </SwiperSlide>
               );

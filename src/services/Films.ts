@@ -38,7 +38,7 @@ export const fetchMovieCredits = async (movieId: string) =>
 
 export async function fetchFilmsByCategory(
   mediaType: "movie" | "tv",
-  category: "popular" | "top_rated"
+  category: "popular" | "top_rated" | "latest"
 ): Promise<Movie[] | Show[]> {
   const response = await fetchData(`${mediaType}/${category}`);
   return response.results.map((film: any) => ({

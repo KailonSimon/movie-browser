@@ -17,25 +17,29 @@ function FilmView({
   return (
     <div className="w-full relative">
       <FilmBanner film={film} />
-      <div className="flex flex-col md:flex-row justify-center py-4 bg-base-100">
+      <div className="flex flex-col md:flex-row justify-center py-4 pb-24 bg-gradient-to-b from-base-200 to-base-100">
         <div className="flex flex-col md:grid md:grid-cols-6 max-w-screen-2xl md:gap-8 px-8">
           <div className="flex flex-col py-4 col-span-4 gap-4">
             {providers && <FilmProviders providers={providers} />}
-            {film.videos && (
+            {!!film.videos?.results.length && (
               <FilmVideos
                 videos={film.videos.results
                   .filter((video: any) => video.site === "YouTube")
                   .slice(0, 4)}
               />
             )}
-            <PersonCarousel
-              title={"Top Billed Cast"}
-              people={film.credits.cast}
-            />
-            <FilmCarousel
-              title={"Recommended Titles"}
-              films={film.recommendations.results}
-            />
+            {!!film.credits.cast.length && (
+              <PersonCarousel
+                title={"Top Billed Cast"}
+                people={film.credits.cast}
+              />
+            )}
+            {!!film.recommendations.results.length && (
+              <FilmCarousel
+                title={"Recommended Titles"}
+                films={film.recommendations.results}
+              />
+            )}
           </div>
           <FilmAbout film={film} />
         </div>

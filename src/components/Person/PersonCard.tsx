@@ -13,7 +13,7 @@ function PersonCard({ person }: { person: Credit | Person }) {
           src={`https://image.tmdb.org/t/p/w185/${person.profile_path}`}
           alt={person.name}
           style={{ width: 138, height: 175, objectFit: "cover" }}
-          className="rounded-lg"
+          className="rounded-lg lg:hover:scale-110 transition-transform"
         />
       ) : (
         <div className="w-[138px] h-[175px] bg-base-200 rounded-lg flex justify-center items-center">
