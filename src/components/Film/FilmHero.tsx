@@ -19,7 +19,7 @@ function FilmHero({ film, getNextSuggestion }: FilmHeroProps) {
       <div className="hero-overlay bg-opacity-80 absolute"></div>
       <div className="hero-content text-center p-4 md:p-12 w-full flex justify-start">
         <div className="text-left w-full max-w-2xl">
-          <h1 className="mb-5 text-neutral-content text-3xl sm:text-4xl lg:text-5xl font-bold !font-display">
+          <h1 className="mb-5 text-neutral-content text-3xl sm:text-4xl lg:text-5xl font-bold !font-[Oswald]">
             {title}
           </h1>
 

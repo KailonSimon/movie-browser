@@ -36,7 +36,7 @@ function FilmBanner({ film }: FilmBannerProps) {
         </div>
         <div className="flex flex-col justify-center h-full md:max-w-[40%]">
           <div className="flex flex-col gap-2">
-            <h1 className="text-5xl text-center text-neutral-content sm:text-left font-bold font-display">
+            <h1 className="text-5xl text-center text-neutral-content sm:text-left font-bold !font-[Oswald]">
               {title}
             </h1>
             <p className="italic opacity-75 text-center sm:text-left">
@@ -48,7 +48,7 @@ function FilmBanner({ film }: FilmBannerProps) {
               <Link
                 to={`/genre/${genre.id}`}
                 key={genre.id}
-                className="hover:opacity-80 rounded-full px-3 py-1 whitespace-nowrap glass font-display"
+                className="hover:opacity-80 rounded-full px-3 py-1 whitespace-nowrap glass font-[Oswald]"
               >
                 {genre.name}
               </Link>
