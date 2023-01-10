@@ -70,7 +70,7 @@ export const fetchFilmPageDetails: FetchFilmPageDetails = async (
 ) => {
   const [film, providers] = await Promise.all([
     fetch(
-      `${process.env.REACT_APP_MOVIE_DB_BASE_URL}${media_type}/${filmId}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US&append_to_response=credits,keywords,recommendations,videos`
+      `${process.env.REACT_APP_MOVIE_DB_BASE_URL}${media_type}/${filmId}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=en-US&append_to_response=credits,keywords,recommendations,videos,reviews`
     ).then((res) => res.json()),
     fetchProvidersById(filmId, media_type),
   ]);

@@ -19,6 +19,14 @@ code {
     monospace;
 }
 
+.review-content > p > a {
+  color: #dca54c;
+}
+
+.review-content > p > a:hover {
+  text-decoration: underline;
+}
+
 /* Swiper.js */
 .swiper-button-next,
 .swiper-button-prev {

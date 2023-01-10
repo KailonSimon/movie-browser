@@ -2,6 +2,21 @@ import { Credit } from "./credit.interface";
 import { Genre, Keyword } from "./genre.interface";
 import { Video } from "./video.interface";
 
+export interface Review {
+  author: string;
+  author_details: {
+    avatar_path: string;
+    name: string;
+    rating: number;
+    username: string;
+  };
+  content: string;
+  created_at: string;
+  id: string;
+  updated_at: string;
+  url: string;
+}
+
 export interface Film {
   backdrop_path?: string;
   credits: {
@@ -21,6 +36,10 @@ export interface Film {
     results: (Movie | Show)[];
     total_pages: number;
     total_results: number;
+  };
+  reviews: {
+    page: number;
+    results: Review[];
   };
   status: string;
   status_message?: string;

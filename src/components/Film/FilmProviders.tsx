@@ -23,7 +23,7 @@ const providerItems = (title: string, providers: []) => (
 
 function FilmProviders({ providers }: any) {
   return (
-    <div className="flex flex-col mb-4">
+    <div className="flex flex-col mb-4 max-w-full overflow-hidden">
       <h2 className="text-2xl text-white font-semibold mb-4">Watch Now</h2>
       {providers?.flatrate?.length > 0 &&
         providerItems("Stream", providers.flatrate)}

@@ -6,6 +6,8 @@ import FilmProviders from "./FilmProviders";
 import FilmCarousel from "./FilmCarousel";
 import FilmVideos from "./FilmVideos";
 import PersonCarousel from "../Person/PersonCarousel";
+import FilmReviews from "./FilmReviews";
+import sortedUniqBy from "lodash/sortedUniqBy";
 
 function FilmView({
   film,
@@ -18,7 +20,7 @@ function FilmView({
     <div className="w-full relative">
       <FilmBanner film={film} />
       <div className="flex flex-col md:flex-row justify-center py-4 pb-24 bg-gradient-to-b from-base-200 to-base-100">
-        <div className="flex flex-col md:grid md:grid-cols-6 max-w-screen-2xl md:gap-8 px-8">
+        <div className="flex flex-col md:grid md:grid-cols-6 w-full max-w-screen-2xl md:gap-8 px-4 md:p-8">
           <div className="flex flex-col py-4 col-span-4 gap-4">
             {providers && <FilmProviders providers={providers} />}
             {!!film.videos?.results.length && (
@@ -32,6 +34,14 @@ function FilmView({
               <PersonCarousel
                 title={"Top Billed Cast"}
                 people={film.credits.cast}
+              />
+            )}
+            {!!film.reviews.results.length && (
+              <FilmReviews
+                reviews={sortedUniqBy(
+                  [...film.reviews.results].reverse(),
+                  "content"
+                )}
               />
             )}
             {!!film.recommendations.results.length && (
