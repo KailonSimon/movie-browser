@@ -14,15 +14,23 @@ function SearchBar() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="w-full md:w-fit">
       <TextInput
         classNames={{
-          wrapper: "hidden md:flex",
+          wrapper: "flex",
           input:
-            "bg-transparent border-base-300 focus:border-neutral-content rounded-full text-white",
+            "bg-transparent border-base-300 focus:border-neutral-content rounded-lg text-white",
         }}
         placeholder="Search"
-        icon={<AiOutlineSearch size={16} className="fill-neutral-content" />}
+        rightSection={
+          <button
+            className="h-full aspect-square flex justify-center items-center bg-neutral-content disabled:opacity-50 rounded-r-lg"
+            type="submit"
+            disabled={!input}
+          >
+            <AiOutlineSearch size={20} className="text-base-200" />
+          </button>
+        }
         value={input}
         onChange={(e) => setInput(e.currentTarget.value)}
       />

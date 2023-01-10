@@ -20,8 +20,8 @@ export default function NavDrawer({
         padding="xl"
         size="75%"
         classNames={{
-          root: "mt-[64px]",
-          drawer: "mt-[64px] bg-base-100 text-white",
+          root: "mt-[100px]",
+          drawer: "mt-[100px] bg-base-100 text-white",
           header: "hidden",
           body: "flex justify-center text-center",
         }}

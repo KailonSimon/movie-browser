@@ -6,7 +6,7 @@ export default function Root() {
   return (
     <div>
       <Navbar />
-      <main className="pt-16 flex justify-center min-h-[calc(100vh-14rem)]">
+      <main className="pt-[calc(4rem+36px)] md:pt-[4rem] flex justify-center min-h-[calc(100vh-14rem)]">
         <ScrollToTop>
           <Outlet />
         </ScrollToTop>
