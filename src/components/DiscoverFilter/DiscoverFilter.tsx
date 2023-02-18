@@ -11,12 +11,14 @@ import ProviderFilter from "./ProviderFilter";
 import { AiOutlineClose } from "react-icons/ai";
 import FilterSelectContainer from "./containers/FilterSelectContainer";
 import FilterDrawer from "./containers/FilterDrawer";
+import { Genre } from "../../shared/interfaces/genre.interface";
+import { Provider } from "../../shared/interfaces/provider.interface";
 
 type FilterProps = {
   state: FilterState;
   functions: FilterFunctions;
-  genres: any[];
-  providers: any[];
+  genres: Genre[];
+  providers: Provider[];
   numberOfResults: number;
 };
 

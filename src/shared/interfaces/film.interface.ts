@@ -1,5 +1,6 @@
 import { Credit } from "./credit.interface";
 import { Genre, Keyword } from "./genre.interface";
+import { ProviderListByCountry } from "./provider.interface";
 import { Video } from "./video.interface";
 
 export interface Review {
@@ -99,8 +100,8 @@ export type FilmType<T> = T extends "movie"
   : never;
 
 export interface FetchFilmPageDetails {
-  <T extends "movie" | "tv">(filmId: string, type: T): Promise<{
+  <T extends "movie" | "tv">(type: T, filmId: string): Promise<{
     film: FilmType<T>;
-    providers: any;
+    providers: ProviderListByCountry;
   }>;
 }

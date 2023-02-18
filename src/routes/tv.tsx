@@ -3,15 +3,18 @@ import { useLoaderData, useParams } from "react-router-dom";
 import { fetchFilmPageDetails } from "../services/Films";
 import { Show } from "../shared/interfaces/film.interface";
 import { FilmView } from "../components/Film";
+import { ProviderListByCountry } from "../shared/interfaces/provider.interface";
 
 const showInformationQuery = (showId: string) => ({
   queryKey: ["shows", "details", showId],
-  queryFn: async () => fetchFilmPageDetails(showId, "tv"),
+  queryFn: async () => fetchFilmPageDetails("tv", showId),
 });
 
 export const loader =
   (queryClient: QueryClient) =>
-  async ({ params }: any): Promise<{ film: Show; providers: any }> => {
+  async ({
+    params,
+  }: any): Promise<{ film: Show; providers: ProviderListByCountry }> => {
     const query = showInformationQuery(params.showId);
     return (
       queryClient.getQueryData(query.queryKey) ??
@@ -38,5 +41,5 @@ export default function ShowRoute() {
     );
   }
 
-  return <FilmView film={data.film} providers={data.providers.results.US} />;
+  return <FilmView film={data.film} providers={data.providers} />;
 }

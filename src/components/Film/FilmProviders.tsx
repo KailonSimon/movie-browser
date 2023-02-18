@@ -1,4 +1,10 @@
-const providerItems = (title: string, providers: []) => (
+import { useEffect } from "react";
+import {
+  Provider,
+  ProviderCountry,
+} from "../../shared/interfaces/provider.interface";
+
+const providerItems = (title: string, providers: Provider[]) => (
   <div className="flex flex-col">
     <h3 className="text-lg font-bold">{title}</h3>
     <div className="flex flex-wrap gap-2 py-4">
@@ -21,14 +27,17 @@ const providerItems = (title: string, providers: []) => (
   </div>
 );
 
-function FilmProviders({ providers }: any) {
+function FilmProviders({ providers }: { providers: ProviderCountry }) {
+  useEffect(() => {
+    console.log(providers);
+  }, [providers]);
   return (
     <div className="flex flex-col mb-4 max-w-full overflow-hidden">
       <h2 className="text-2xl text-white font-semibold mb-4">Watch Now</h2>
-      {providers?.flatrate?.length > 0 &&
-        providerItems("Stream", providers.flatrate)}
-      {providers?.rent?.length > 0 && providerItems("Rent", providers.rent)}
-      {providers?.buy?.length > 0 && providerItems("Buy", providers.buy)}
+      {providers?.flatrate?.length &&
+        providerItems("Stream", providers["flatrate"])}
+      {providers?.rent?.length && providerItems("Rent", providers.rent)}
+      {providers?.buy?.length && providerItems("Buy", providers.buy)}
       <p className="text-sm text-right">
         Data provided by{" "}
         <a

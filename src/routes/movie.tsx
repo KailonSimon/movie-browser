@@ -3,15 +3,19 @@ import { useLoaderData, useParams } from "react-router-dom";
 import { fetchFilmPageDetails } from "../services/Films";
 import { Movie } from "../shared/interfaces/film.interface";
 import { FilmView } from "../components/Film";
+import { useEffect } from "react";
+import { ProviderListByCountry } from "../shared/interfaces/provider.interface";
 
 const movieInformationQuery = (movieId: string) => ({
   queryKey: ["movies", "details", movieId],
-  queryFn: async () => fetchFilmPageDetails(movieId, "movie"),
+  queryFn: async () => fetchFilmPageDetails("movie", movieId),
 });
 
 export const loader =
   (queryClient: QueryClient) =>
-  async ({ params }: any): Promise<{ film: Movie; providers: any }> => {
+  async ({
+    params,
+  }: any): Promise<{ film: Movie; providers: ProviderListByCountry }> => {
     const query = movieInformationQuery(params.movieId);
     return (
       queryClient.getQueryData(query.queryKey) ??
@@ -29,6 +33,10 @@ export default function MovieRoute() {
     initialData,
   });
 
+  useEffect(() => {
+    console.log("data", data);
+  }, [data]);
+
   if (!!data.film.status_code) {
     return (
       <div className="w-full h-[calc(100vh-18rem)] flex flex-col justify-center items-center">
@@ -37,6 +45,5 @@ export default function MovieRoute() {
       </div>
     );
   }
-
-  return <FilmView film={data.film} providers={data.providers.results.US} />;
+  return <FilmView film={data.film} providers={data.providers} />;
 }

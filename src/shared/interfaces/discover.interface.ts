@@ -3,7 +3,7 @@ import { Movie, Show } from "./film.interface";
 
 export interface DiscoverResults {
   page: number;
-  results: Movie[] | Show[];
+  results: Array<Movie | Show>;
   total_pages: number;
   total_results: number;
 }

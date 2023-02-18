@@ -2,7 +2,7 @@ import { useRef, ChangeEvent, useState } from "react";
 import { Checkbox, Modal, TextInput } from "@mantine/core";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MdRemove } from "react-icons/md";
-import { Provider } from "./ProviderFilter";
+import { Provider } from "../../shared/interfaces/provider.interface";
 
 type ProviderSelectionModalProps = {
   opened: boolean;

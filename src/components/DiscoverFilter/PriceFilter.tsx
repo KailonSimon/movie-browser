@@ -7,7 +7,7 @@ type PriceFilterProps = Pick<
 >;
 
 type PriceItem = {
-  value: string;
+  value: "flatrate" | "free" | "ads" | "rent" | "buy";
   label: string;
 };
 

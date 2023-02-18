@@ -1,5 +1,4 @@
 import { Movie, Show } from "../../shared/interfaces/film.interface";
-import { Provider } from "../DiscoverFilter/ProviderFilter";
 import FilmAbout from "./FilmAbout";
 import FilmBanner from "./FilmBanner";
 import FilmProviders from "./FilmProviders";
@@ -8,13 +7,14 @@ import FilmVideos from "./FilmVideos";
 import PersonCarousel from "../Person/PersonCarousel";
 import FilmReviews from "./FilmReviews";
 import sortedUniqBy from "lodash/sortedUniqBy";
+import { ProviderListByCountry } from "../../shared/interfaces/provider.interface";
 
 function FilmView({
   film,
   providers,
 }: {
   film: Movie | Show;
-  providers?: Provider[];
+  providers?: ProviderListByCountry;
 }) {
   return (
     <div className="w-full relative">
@@ -22,7 +22,7 @@ function FilmView({
       <div className="flex flex-col md:flex-row justify-center py-4 pb-24 bg-gradient-to-b from-base-200 to-base-100">
         <div className="flex flex-col md:grid md:grid-cols-6 w-full max-w-screen-2xl md:gap-8 px-4 md:p-8">
           <div className="flex flex-col py-4 col-span-4 gap-4">
-            {providers && <FilmProviders providers={providers} />}
+            {providers && <FilmProviders providers={providers["US"]} />}
             {!!film.videos?.results.length && (
               <FilmVideos
                 videos={film.videos.results

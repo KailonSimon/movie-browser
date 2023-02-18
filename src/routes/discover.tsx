@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 import DiscoverFilter from "../components/DiscoverFilter/DiscoverFilter";
 import {
-  fetchAllMoviesProviders,
   fetchDiscoverResults,
   fetchGenres,
+  fetchProviders,
 } from "../services/Films";
 import { useReducer } from "react";
 import {
@@ -19,6 +19,8 @@ import {
   useQueries,
 } from "@tanstack/react-query";
 import { FilmGrid } from "../components/Film";
+import { Genre } from "../shared/interfaces/genre.interface";
+import { Provider } from "../shared/interfaces/provider.interface";
 
 function discoverQuery(filterState: FilterState) {
   return {
@@ -31,12 +33,12 @@ function discoverQuery(filterState: FilterState) {
 const filterQueries = [
   {
     queryKey: ["genres"],
-    queryFn: fetchGenres,
+    queryFn: () => fetchGenres("movie"),
     staleTime: Infinity,
   },
   {
     queryKey: ["providers"],
-    queryFn: fetchAllMoviesProviders,
+    queryFn: () => fetchProviders("movie"),
     staleTime: Infinity,
   },
 ];
@@ -108,8 +110,8 @@ function Discover() {
           <DiscoverFilter
             state={filterState}
             functions={filterFunctions}
-            genres={genreResults.data.genres}
-            providers={providerResults.data.results}
+            genres={genreResults.data as Genre[]}
+            providers={providerResults.data as Provider[]}
             numberOfResults={data.pages[0].total_results}
           />
         )}

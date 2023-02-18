@@ -1,14 +1,8 @@
 import { Reducer, useReducer } from "react";
 import { BsPlusLg } from "react-icons/bs";
+import { Filter } from "../../services/Filter";
+import { Provider } from "../../shared/interfaces/provider.interface";
 import ProviderSelectionModal from "./ProviderSelectionModal";
-
-export type Provider = {
-  display_priorities: any;
-  display_priority: number;
-  logo_path: string;
-  provider_id: number;
-  provider_name: string;
-};
 
 type State = {
   modalOpened: boolean;
@@ -19,12 +13,11 @@ type Action =
   | { type: "SET_MODAL_OPENED"; payload: boolean }
   | { type: "SET_VISIBLE_PROVIDERS"; payload: number[] };
 
-interface ProviderMultiSelectProps
-  extends React.ComponentPropsWithoutRef<"div"> {
+type ProviderFilterProps = {
   providers: Provider[];
-  activeProviders: number[];
-  setActiveProviders: (value: number[]) => void;
-}
+  activeProviders: Filter["activeProviders"];
+  setActiveProviders: Filter["setActiveProviders"];
+};
 
 const initialState: State = {
   modalOpened: false,
@@ -57,7 +50,7 @@ function ProviderFilter({
   providers,
   activeProviders,
   setActiveProviders,
-}: ProviderMultiSelectProps) {
+}: ProviderFilterProps) {
   const [state, dispatch] = useReducer(reducer, initialState, () =>
     initializeState(activeProviders)
   );
