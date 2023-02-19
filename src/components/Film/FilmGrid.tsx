@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import FilmCard from "./FilmCard";
 import { Movie, Show } from "../../shared/interfaces/film.interface";
@@ -10,12 +10,15 @@ interface FilmGridProps {
   hasNextPage?: boolean;
 }
 
-const getSkeletonItemCount = (totalItems: number, shownItems: number) => {
-  if (totalItems - shownItems > 20) {
-    return 19;
-  } else {
-    return totalItems - shownItems - 1;
-  }
+const calculateSkeletonItemCount = (
+  totalItems: number,
+  shownItems: number
+): number => {
+  const remainingItems = totalItems - shownItems;
+  const maxSkeletonItems = 19;
+  const skeletonItemCount =
+    remainingItems > maxSkeletonItems ? maxSkeletonItems : remainingItems;
+  return skeletonItemCount;
 };
 
 function FilmGrid({
@@ -43,10 +46,10 @@ function FilmGrid({
       {hasNextPage && totalFilms && (
         <>
           <div
-            className="w-[150px] h-[225px] bg-base-300 rounded-lg animate-pulse"
+            className="w-[150px] h-[225px] bg-base-300 rounded-lg animate-pulse border border-red-400"
             ref={loaderRef}
           />
-          {[...Array(getSkeletonItemCount(totalFilms, films.length))].map(
+          {[...Array(calculateSkeletonItemCount(totalFilms, films.length))].map(
             (o, i) => (
               <FilmCard key={i} />
             )
