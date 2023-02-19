@@ -28,27 +28,33 @@ const providerItems = (title: string, providers: Provider[]) => (
 );
 
 function FilmProviders({ providers }: { providers: ProviderCountry }) {
-  useEffect(() => {
-    console.log(providers);
-  }, [providers]);
   return (
     <div className="flex flex-col mb-4 max-w-full overflow-hidden">
       <h2 className="text-2xl text-white font-semibold mb-4">Watch Now</h2>
-      {providers?.flatrate?.length &&
-        providerItems("Stream", providers["flatrate"])}
-      {providers?.rent?.length && providerItems("Rent", providers.rent)}
-      {providers?.buy?.length && providerItems("Buy", providers.buy)}
-      <p className="text-sm text-right">
-        Data provided by{" "}
-        <a
-          href="https://www.justwatch.com/"
-          target="_blank"
-          rel="noreferrer"
-          className="text-neutral-content hover:opacity-80 hover:underline"
-        >
-          JustWatch
-        </a>
-      </p>
+      {providers ? (
+        <>
+          {providers?.flatrate?.length &&
+            providerItems("Stream", providers["flatrate"])}
+          {providers?.rent?.length && providerItems("Rent", providers.rent)}
+          {providers?.buy?.length && providerItems("Buy", providers.buy)}
+          <p className="text-sm text-right">
+            Data provided by{" "}
+            <a
+              href="https://www.justwatch.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-neutral-content hover:opacity-80 hover:underline"
+            >
+              JustWatch
+            </a>
+          </p>
+        </>
+      ) : (
+        <div>
+          Sorry, this media is not currently available for streaming in your
+          country
+        </div>
+      )}
     </div>
   );
 }

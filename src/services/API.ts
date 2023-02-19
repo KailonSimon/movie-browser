@@ -1,4 +1,5 @@
 import orderBy from "lodash/orderBy";
+import { Country } from "../shared/enums/countries.enums";
 
 export function sortArrayByPopularity(array: any) {
   return [...array].sort(
@@ -52,9 +53,10 @@ export const sortFilmCredits = (
 export const fetchData = async (
   endpoint: string,
   language = "en-US",
-  page = 1
+  page = 1,
+  region = "US" as Country
 ) => {
-  const url = `${process.env.REACT_APP_MOVIE_DB_BASE_URL}${endpoint}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=${language}&page=${page}`;
+  const url = `${process.env.REACT_APP_MOVIE_DB_BASE_URL}${endpoint}?api_key=${process.env.REACT_APP_MOVIE_DB_API_KEY}&language=${language}&page=${page}&region=${region}`;
   try {
     const res = await fetch(url);
     return res.json();

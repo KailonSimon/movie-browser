@@ -33,10 +33,6 @@ export default function MovieRoute() {
     initialData,
   });
 
-  useEffect(() => {
-    console.log("data", data);
-  }, [data]);
-
   if (!!data.film.status_code) {
     return (
       <div className="w-full h-[calc(100vh-18rem)] flex flex-col justify-center items-center">
